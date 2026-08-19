@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en-CA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luxury Landscaping | Landscape Design, Build & Lawn Care across the GTA</title>
+    <meta
+      name="description"
+      content="Luxury Landscaping designs, builds and maintains yards across Mississauga and the GTA. Landscape design and construction, weekly lawn care, fertilization, pruning and winter services. Call (905) 781-3648."
+    />
+    <link rel="canonical" href="https://luxurylandscaping.ca/" />
+    <meta name="theme-color" content="#0e1210" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Luxury Landscaping" />
+    <meta property="og:title" content="Luxury Landscaping | Mississauga and the GTA" />
+    <meta
+      property="og:description"
+      content="Landscape design, construction and year-round lawn care across Mississauga and the GTA."
+    />
+    <meta property="og:url" content="https://luxurylandscaping.ca/" />
+    <meta property="og:image" content="https://luxurylandscaping.ca/photos/yard-after-1400.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preload" as="image" href="/photos/yard-before-1400.jpg" imagesrcset="/photos/yard-before-900.jpg 900w, /photos/yard-before-1400.jpg 1400w, /photos/yard-before-2048.jpg 2048w" imagesizes="100vw" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LandscapingBusiness",
+        "name": "Luxury Landscaping",
+        "url": "https://luxurylandscaping.ca/",
+        "telephone": "+1-905-781-3648",
+        "image": "https://luxurylandscaping.ca/photos/yard-after-1400.jpg",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "1824 Medallion Ct",
+          "addressLocality": "Mississauga",
+          "addressRegion": "ON",
+          "postalCode": "L5J 2L7",
+          "addressCountry": "CA"
+        },
+        "areaServed": [
+          { "@type": "City", "name": "Mississauga" },
+          { "@type": "AdministrativeArea", "name": "Greater Toronto Area" }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- Static copy of the quote form so Netlify's build crawler registers it. Not rendered. -->
+    <form name="quote" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="tel" name="phone" />
+      <input type="email" name="email" />
+      <select name="service"></select>
+      <textarea name="message"></textarea>
+      <input name="bot-field" />
+    </form>
+
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

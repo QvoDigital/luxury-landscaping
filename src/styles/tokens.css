@@ -1,0 +1,50 @@
+/*
+ * Design tokens. Dark only, by the client's decision: the page is a photograph in the dark with
+ * one green accent. Radius is 4px everywhere; no pills.
+ */
+:root {
+  color-scheme: dark;
+
+  --green: #2e7a47;
+  --green-hot: #3a9158;
+  --green-deep: #1f5a34;
+  --green-tint: rgb(46 122 71 / 0.16);
+
+  --ink: #0e1210;
+  --surface: #0e1210;
+  --surface-2: #141a16;
+  --surface-3: #1c241f;
+  --on-surface: #e6e8e3;
+  --on-surface-muted: #a2aaa3;
+  --on-accent: #f6f7f4;
+  --line: rgb(230 232 227 / 0.12);
+  --line-strong: rgb(230 232 227 / 0.3);
+  --shadow: 0 24px 48px -24px rgb(0 0 0 / 0.6);
+  --danger: #e2847a;
+
+  --font-display: 'Outfit Variable', 'Outfit', system-ui, sans-serif;
+  --font-body: 'Figtree Variable', 'Figtree', system-ui, sans-serif;
+
+  --radius: 4px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  --gutter: clamp(20px, 4vw, 64px);
+  --shell: min(1320px, 100% - 2 * var(--gutter));
+  --section: clamp(88px, 11vw, 160px);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 160ms;
+  --dur: 260ms;
+
+  --nav-h: 72px;
+}
