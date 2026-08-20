@@ -1,5 +1,5 @@
 ﻿import { legalDocs } from '../content/legal';
-import { company, contact, nav } from '../content/site';
+import { company, contact } from '../content/site';
 import { openPreferences } from '../lib/consent';
 import { Wordmark } from './Wordmark';
 
@@ -11,7 +11,7 @@ import { Wordmark } from './Wordmark';
 /** Maple leaf, drawn inline so it needs no asset; the red is set in CSS. */
 function MapleLeaf(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 512 512" width="18" height="18" fill="currentColor" {...props}>
+    <svg viewBox="0 0 512 512" width="28" height="28" fill="currentColor" {...props}>
       <path d="M256 16l40 96 48-24-16 72 72-24-24 56 72 16-56 48 40 56-88-8 8 64-72-32-12 104h-24l-12-104-72 32 8-64-88 8 40-56-56-48 72-16-24-56 72 24-16-72 48 24z" />
     </svg>
   );
@@ -36,16 +36,6 @@ export function Footer() {
             Proudly Canadian
           </p>
         </div>
-        <nav aria-label="Pages" className="footer__col">
-          <h2>Pages</h2>
-          <ul>
-            {nav.map((n) => (
-              <li key={n.href}>
-                <a href={n.href}>{n.label}</a>
-              </li>
-            ))}
-          </ul>
-        </nav>
         <nav aria-label="Legal" className="footer__col">
           <h2>Legal</h2>
           <ul>
