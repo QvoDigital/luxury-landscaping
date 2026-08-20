@@ -133,7 +133,8 @@ export type Person = { name: string; role: string; body: string };
 
 /**
  * Meet the team. Names, titles and bios are the client's own, from the Team page of their
- * original site (typo "knowledgable" fixed). CONFIRM the three are still current before launch.
+ * original site (typo "knowledgable" fixed). Brent Graham was removed 2026-08-20 on the client's
+ * instruction: no longer with the company.
  * No photos until the client supplies real ones.
  */
 export const team: readonly Person[] = [
@@ -141,11 +142,6 @@ export const team: readonly Person[] = [
     name: 'Patrick Warren',
     role: 'Owner',
     body: 'Patrick started the company in 2005 and has been operating and growing it steadily ever since. A graduate of the University of Guelph with a degree in Business and Economics.',
-  },
-  {
-    name: 'Brent Graham',
-    role: 'Project Manager',
-    body: 'Brent has spent the last 20 years working with and studying turf, trees, weeds and insects, specifically in golf course maintenance. He graduated from the University of Guelph with a diploma in Turfgrass Management.',
   },
   {
     name: 'James Boodram',
