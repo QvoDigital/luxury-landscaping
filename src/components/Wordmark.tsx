@@ -8,7 +8,7 @@ import { company } from '../content/site';
 export function Wordmark({ light = false }: { light?: boolean }) {
   return (
     <span className="wordmark" data-light={light}>
-      <img src="/logo-mark.png" alt="" width="42" height="48" aria-hidden="true" />
+      <img src="/logo-mark.png" alt="" width="52" height="60" aria-hidden="true" />
       <span>{company.name}</span>
     </span>
   );
