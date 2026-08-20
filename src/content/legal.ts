@@ -21,12 +21,8 @@ export const legalMeta = {
   address: `${contact.street}, ${contact.city}, ${contact.region} ${contact.postal}, Canada`,
   phone: contact.phone,
   phoneHref: contact.phoneHref,
-  /**
-   * CONFIRM: the hosting / form-handling provider once the site is deployed. The quote form is
-   * wired for Netlify Forms; until deployment is confirmed the documents say "our website hosting
-   * provider" rather than naming one.
-   */
-  host: 'our website hosting provider',
+  /** The quote form is delivered by FormSubmit (formsubmit.co); see src/sections/Contact.tsx. */
+  host: 'FormSubmit, our form-delivery provider',
 } as const;
 
 export type LegalBlock = { heading?: string; paragraphs: readonly string[]; list?: readonly string[] };

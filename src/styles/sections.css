@@ -583,7 +583,8 @@
   min-height: 24px;
   font-weight: 500;
 }
-.form__status[data-state='sent'] {
+.form__status[data-state='sent'],
+.form__status[data-state='mailed'] {
   color: var(--green);
 }
 .form__status[data-state='error'] {

@@ -56,16 +56,6 @@
   <body>
     <div id="root"></div>
 
-    <!-- Static copy of the quote form so Netlify's build crawler registers it. Not rendered. -->
-    <form name="quote" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
-      <input type="hidden" name="subject" />
-      <input type="text" name="name" />
-      <input type="tel" name="phone" />
-      <input type="email" name="email" />
-      <select name="service"></select>
-      <textarea name="message"></textarea>
-      <input name="bot-field" />
-    </form>
 
     <script type="module" src="/src/main.tsx"></script>
   </body>

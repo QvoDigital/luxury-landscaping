@@ -22,7 +22,7 @@ node scripts/optimize-photos.mjs   # convert PNGs in public/photos to optimised 
 - `src/styles/tokens.css`: colour, type, spacing, radius tokens (dark only).
 - `src/styles/layout.css` + `sections.css`: masthead, sections, responsive rules.
 - `DESIGN.md`: the design system and the reasoning behind it.
-- `index.html`: meta, Open Graph, JSON-LD `LandscapingBusiness`, hidden Netlify form copy.
+- `index.html`: meta, Open Graph, JSON-LD `LandscapingBusiness`.
 
 ## What the site does with data (keep the legal pages in sync with this)
 
@@ -31,7 +31,7 @@ and bump `CONSENT_VERSION` in `src/lib/consent.ts` so visitors are asked again.
 
 | Technology | Type | Data | Party |
 |---|---|---|---|
-| Quote form (`name`, `email`, `phone`, `service`, `message`) | form POST to `/` | contact details + message | hosting / form provider (Netlify Forms intended; CONFIRM at deploy) |
+| Quote form (`name`, `email`, `phone`, `service`, `message`) | JSON POST to formsubmit.co | contact details + message | FormSubmit (third party), delivered to sales@luxurylandscaping.ca |
 | `localStorage["ll-consent"]` | strictly necessary storage | consent choices, timestamp, policy version; 12-month expiry | first party |
 | Fonts (Outfit, Figtree) | self-hosted via `@fontsource-variable` | none | first party |
 | Analytics / ads / pixels / chat / embeds | **none** | | |
@@ -55,10 +55,10 @@ DevTools to verify a choice took effect).
 2. Supply a logo file if one exists and swap it into `src/components/Wordmark.tsx`.
 3. `404.html` is the not-found page; Netlify serves it automatically. On other hosts, point the
    404 rule at it.
-4. The quote form is wired for Netlify Forms (form name `quote`). **Submissions go to
-   sales@luxurylandscaping.ca**: after the first deploy, in Netlify open Forms → quote →
-   Notifications → Email notification and enter that address. The hidden `subject` field sets
-   the email subject. On other hosts, point the form
-   `action` at your endpoint in `src/sections/Contact.tsx`.
+4. The quote form posts to FormSubmit (formsubmit.co), which emails every submission to
+   **sales@luxurylandscaping.ca** on any host, with no account or key. The very first
+   submission sends a one-time "Activate form" email to that inbox; click the link once and all
+   later submissions are delivered. The hidden `_subject` field sets the email subject. To change
+   the recipient, change `contact.email` in `src/content/site.ts`.
 4. If real project photography arrives, the hero plates can be replaced by two photos of one yard
    taken from the same spot (before and after); update `heroPlates` in `site.ts`.

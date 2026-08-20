@@ -1,16 +1,33 @@
-﻿import { ArrowRight, CheckCircle, EnvelopeSimple, MapPin, Phone, WarningCircle } from '@phosphor-icons/react';
+import { ArrowRight, CheckCircle, EnvelopeSimple, MapPin, Phone } from '@phosphor-icons/react';
 import { useState, type FormEvent } from 'react';
 import { serviceAreas } from '../content/services';
 import { contact, programOptions } from '../content/site';
 
-type Status = 'idle' | 'sending' | 'sent' | 'error';
+type Status = 'idle' | 'sending' | 'sent' | 'mailed';
+
+/** A mailto: link to sales@ with the quote request already written out. */
+function mailtoFor(f: Record<string, string>): string {
+  const body = [
+    `Name: ${f.name ?? ''}`,
+    `Email: ${f.email ?? ''}`,
+    `Phone: ${f.phone || '-'}`,
+    `Service: ${f.service || 'Not sure yet'}`,
+    '',
+    f.message ?? '',
+  ].join('\n');
+  const subject = f._subject || 'Quote request from luxurylandscaping.ca';
+  return `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
 
 /**
- * Quote request form, wired for Netlify Forms: form name `quote`, fields name / email / phone /
- * service / message, honeypot `bot-field`. A static copy of the form lives in index.html so the
- * Netlify build crawler registers it. Submission is a fetch to "/" so the page never reloads and
- * the success / error state is shown inline. Hosting elsewhere: point `action` at your endpoint.
+ * Quote request form. Submissions are emailed to contact.email (sales@luxurylandscaping.ca)
+ * through FormSubmit (https://formsubmit.co), which needs no account, key or hosting setup, so
+ * it works on any host. The first submission ever sends a one-time "Activate form" email to
+ * that inbox; click it once and every later submission is delivered. Fields: name / email /
+ * phone / service / message, honeypot `_honey`. Submission is a JSON fetch so the page never
+ * reloads and the success / error state is shown inline.
  */
+const FORM_ENDPOINT = `https://formsubmit.co/ajax/${contact.email}`;
 /**
  * `/?program=Deluxe#contact` (from the packages page) pre-selects that program in the Service
  * dropdown and starts the message. Anything that is not one of the four programs is ignored.
@@ -31,17 +48,24 @@ export function Contact() {
     e.preventDefault();
     const form = e.currentTarget;
     setStatus('sending');
+    const fields = Object.fromEntries(new FormData(form)) as Record<string, string>;
     try {
-      const res = await fetch('/', {
+      const res = await fetch(FORM_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(form) as unknown as Record<string, string>).toString(),
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(fields),
       });
       if (!res.ok) throw new Error(String(res.status));
+      const data: { success?: string | boolean } = await res.json();
+      if (String(data.success) !== 'true') throw new Error('rejected');
       form.reset();
       setStatus('sent');
     } catch {
-      setStatus('error');
+      // Direct delivery unavailable: hand the message to the visitor's own email app, already
+      // addressed to sales@ and filled in, so the request always reaches the inbox.
+      window.location.href = mailtoFor(fields);
+      form.reset();
+      setStatus('mailed');
     }
   }
 
@@ -78,16 +102,16 @@ export function Contact() {
           className="form reveal"
           name="quote"
           method="POST"
-          data-netlify="true"
-          data-netlify-honeypot="bot-field"
+          action={FORM_ENDPOINT.replace('/ajax/', '/')}
           onSubmit={onSubmit}
           aria-describedby="form-status"
         >
-          <input type="hidden" name="form-name" value="quote" />
-          <input type="hidden" name="subject" value="Quote request from luxurylandscaping.ca" />
+          <input type="hidden" name="_subject" value="Quote request from luxurylandscaping.ca" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="false" />
           <p className="sr-only" aria-hidden="true">
             <label>
-              Leave this field empty <input name="bot-field" tabIndex={-1} autoComplete="off" />
+              Leave this field empty <input name="_honey" tabIndex={-1} autoComplete="off" />
             </label>
           </p>
 
@@ -158,9 +182,10 @@ export function Contact() {
                   <CheckCircle size={20} weight="fill" aria-hidden="true" /> Sent. We will be in touch.
                 </>
               )}
-              {status === 'error' && (
+              {status === 'mailed' && (
                 <>
-                  <WarningCircle size={20} weight="fill" aria-hidden="true" /> That did not go through. Please call{' '}
+                  <CheckCircle size={20} weight="fill" aria-hidden="true" /> Your email app has opened with the request
+                  addressed to <a href={`mailto:${contact.email}`}>{contact.email}</a>. Press send there, or call{' '}
                   <a href={contact.phoneHref}>{contact.phone}</a>.
                 </>
               )}
