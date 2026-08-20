@@ -4,7 +4,8 @@ import { BackLink } from '../components/BackLink';
 import { CookieConsent } from '../components/CookieConsent';
 import { Footer } from '../components/Footer';
 import { Masthead } from '../components/Masthead';
-import { contact, cta, faqs } from '../content/site';
+import { contact, cta, faqs, nav } from '../content/site';
+import { renderRich } from '../lib/richJsx';
 import { useReveal } from '../lib/reveal';
 
 /**
@@ -28,14 +29,29 @@ export default function FaqPage() {
             <BackLink href="/" />
             <h1 className="display-l reveal">Questions.</h1>
             <p className="lede reveal">
-              Anything not answered here, call <a href={contact.phoneHref}>{contact.phone}</a>.
+              Anything not answered here, call <a href={contact.phoneHref}>{contact.phone}</a> or email{' '}
+              <a href={`mailto:${contact.email}`}>{contact.email}</a>.
             </p>
+            <nav className="faq__links reveal" aria-label="Site pages">
+              <ul>
+                {nav
+                  .filter((n) => n.href !== '/faq/')
+                  .map((n) => (
+                    <li key={n.href}>
+                      <a href={n.href}>
+                        {n.label}
+                        <ArrowRight size={14} weight="bold" aria-hidden="true" />
+                      </a>
+                    </li>
+                  ))}
+              </ul>
+            </nav>
           </div>
           <dl className="faq__list">
             {faqs.map((f) => (
               <div key={f.q} className="faq__item reveal">
                 <dt>{f.q}</dt>
-                <dd>{f.a}</dd>
+                <dd>{renderRich(f.a)}</dd>
               </div>
             ))}
           </dl>

@@ -1,6 +1,7 @@
 ﻿import { ArrowRight, CheckCircle, EnvelopeSimple, MapPin, Phone, WarningCircle } from '@phosphor-icons/react';
 import { useState, type FormEvent } from 'react';
-import { allServices, contact, programOptions } from '../content/site';
+import { serviceAreas } from '../content/services';
+import { contact, programOptions } from '../content/site';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -110,13 +111,15 @@ export function Contact() {
               <label htmlFor="f-service">Service <span className="form__req">(optional)</span></label>
               <select id="f-service" name="service" defaultValue={programOption(program)}>
                 <option value="">Not sure yet</option>
-                <optgroup label="Services">
-                  {allServices.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
-                </optgroup>
+                {serviceAreas.map((area) => (
+                  <optgroup key={area.id} label={area.title}>
+                    {area.rows.map((r) => (
+                      <option key={r.name} value={`${area.title}: ${r.name}`}>
+                        {r.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
                 <optgroup label="Lawn care programs">
                   {programOptions.map((s) => (
                     <option key={s} value={s}>

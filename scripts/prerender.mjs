@@ -18,6 +18,7 @@ import { fileURLToPath } from 'node:url';
 
 import { legalDocs, legalMeta } from '../src/content/legal.ts';
 import { packages, serviceAreas } from '../src/content/services.ts';
+import { plain } from '../src/lib/rich.ts';
 import { company, contact, faqs, reviews, serviceGroups, team } from '../src/content/site.ts';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -54,7 +55,9 @@ function buildShell() {
 }
 
 function buildFaqShell() {
-  const items = faqs.map((f) => `<section><h2>${esc(f.q)}</h2><p>${esc(f.a)}</p></section>`).join('\n        ');
+  const items = faqs
+    .map((f) => `<section><h2>${esc(f.q)}</h2><p>${esc(f.a).replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')}</p></section>`)
+    .join('\n        ');
   return `<div class="prerender shell">
         <p><a href="/">${esc(company.name)}</a></p>
         <h1>Questions</h1>
@@ -119,7 +122,7 @@ function buildFaqSchema() {
     mainEntity: faqs.map((f) => ({
       '@type': 'Question',
       name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
+      acceptedAnswer: { '@type': 'Answer', text: plain(f.a) },
     })),
   };
   // `</script>` inside a JSON payload would close the tag early.
@@ -160,7 +163,7 @@ ${team.map((p) => `- ${p.name}: ${p.role}. ${p.body}`).join('\n')}
 
 Full page: ${company.url}/faq/
 
-${faqs.map((f) => `**${f.q}**\n${f.a}`).join('\n\n')}
+${faqs.map((f) => `**${f.q}**\n${plain(f.a)}`).join('\n\n')}
 
 ## Legal
 
