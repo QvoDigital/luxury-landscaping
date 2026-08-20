@@ -434,6 +434,26 @@
   position: sticky;
   top: calc(var(--nav-h) + var(--space-8));
 }
+.contact__steps {
+  display: grid;
+  gap: var(--space-3);
+  counter-reset: step;
+  max-width: 34ch;
+}
+.contact__steps li {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  gap: var(--space-2);
+  align-items: baseline;
+  counter-increment: step;
+  color: var(--on-surface-muted);
+}
+.contact__steps li::before {
+  content: counter(step);
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--green);
+}
 .contact__facts {
   display: grid;
   gap: var(--space-3);

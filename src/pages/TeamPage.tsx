@@ -1,5 +1,6 @@
 ﻿import { ArrowRight } from '@phosphor-icons/react';
 import { useRef } from 'react';
+import { BackLink } from '../components/BackLink';
 import { CookieConsent } from '../components/CookieConsent';
 import { Footer } from '../components/Footer';
 import { Masthead } from '../components/Masthead';
@@ -23,6 +24,7 @@ export default function TeamPage() {
       <main id="main" ref={main} tabIndex={-1} className="team section">
         <div className="shell">
           <div className="team__head">
+            <BackLink href="/" />
             <h1 className="display-l reveal">The people behind the work.</h1>
             <p className="lede reveal">Based in Mississauga, working across the GTA.</p>
           </div>

@@ -60,7 +60,7 @@ export const serviceAreas: readonly ServiceArea[] = [
       { name: 'Residential · Level 1', text: 'Storm protection. We clear at 5 cm or more.' },
       { name: 'Residential · Level 2', text: 'Light snowfall protection. We clear at 2.5 cm or more.' },
       { name: 'Residential · Level 3', text: 'Luxury protection. We clear every snowfall, salting included.' },
-      { name: 'Commercial', text: '24/7 snow removal across most of the GTA.' },
+      { name: 'Commercial', text: '24/7 snow removal across Mississauga and the GTA.' },
     ],
   },
 ] as const;

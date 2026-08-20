@@ -193,5 +193,8 @@ export const faqs: readonly Faq[] = [
   },
 ] as const;
 
+/** The four lawn care programs as they appear in the quote form's Service dropdown. */
+export const programOptions = ['Basic program', 'Deluxe program', 'Luxury program', 'Consulting'] as const;
+
 /** One label for the one contact intent, used identically everywhere. */
 export const cta = { label: 'Get a quote', href: '/#contact' } as const;
