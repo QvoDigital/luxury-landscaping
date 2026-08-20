@@ -81,13 +81,20 @@ instant. Nothing is gated behind an animation; without JavaScript everything is 
 | # | Section | Family |
 |---|---|---|
 | 1 | Hero | Full-bleed sticky photograph, copy bottom-left |
-| 2 | Services | Four columns of plain lists over one rule |
+| 2 | Doors | Two half-width links over one rule, each previewing the page behind it (/services/, /packages/) |
 | 3 | Reviews | Sticky heading + single column of quotes, 5/7 split |
 | 4 | Contact | Sticky intro + two-column form |
 
 Four sections, four families. No cards, no photos outside the hero. `/faq/` is a second document
-(sticky heading + definition list) sharing the masthead and footer; header and footer carry only
-the FAQ link, the phone number and the quote button.
+(sticky heading + definition list) sharing the masthead and footer.
+
+**Catalogue pages (added 2026-08-20).** The home page no longer lists services; it opens two
+doors. `/services/` carries every offering from the client's original Wix site in three numbered
+areas (Landscaping, Lawn care, Winter services), and `/packages/` carries the four lawn care
+programs (Basic, Deluxe, Luxury, Consulting). Simplified the same day on Warra's feedback ("too complicated"): /services/ is
+three groups of plain rows (name, one sentence); /packages/ is four columns side by side with
+visits, one line and a short check-list. No numbering, no sticky columns, no jump lists. Content lives in
+`src/content/services.ts`; the short list in `site.ts` still drives the contact form.
 
 ## 6. Content rules
 

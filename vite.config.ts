@@ -15,6 +15,8 @@ export default defineConfig({
         main: 'index.html',
         faq: 'faq/index.html',
         team: 'team/index.html',
+        services: 'services/index.html',
+        packages: 'packages/index.html',
         privacy: 'privacy/index.html',
         terms: 'terms/index.html',
         cookies: 'cookies/index.html',

@@ -11,7 +11,8 @@ export const company = {
   name: 'Luxury Landscaping',
   tagline: 'Landscape design, build and lawn care across Mississauga and the GTA.',
   headline: 'Yards worth coming home to.',
-  sub: 'Design, build and year-round lawn care across the GTA.',
+  /** The client's own tagline from the original site: "Design, Build & Maintain Your Space". */
+  sub: 'Design, build and maintain your space. Mississauga and the GTA.',
   url: 'https://luxurylandscaping.ca',
 } as const;
 
@@ -23,6 +24,9 @@ export const contact = {
   country: 'CA',
   phone: '(905) 781-3648',
   phoneHref: 'tel:+19057813648',
+  /** Both addresses are published on the client's original site. */
+  email: 'sales@luxurylandscaping.ca',
+  careersEmail: 'patrick@luxurylandscaping.ca',
   mapsUrl:
     'https://www.google.com/maps/search/?api=1&query=Luxury+Landscaping+1824+Medallion+Ct+Mississauga+ON+L5J+2L7',
 } as const;
@@ -117,8 +121,10 @@ export const heroPlates = {
   height: 1382,
 } as const;
 
-/** Header and footer carry two links: the Team and FAQ pages. Everything else is reached by scrolling. */
+/** Header links: the two catalogue pages, Team and FAQ. Everything else is reached by scrolling. */
 export const nav = [
+  { label: 'Services', href: '/services/' },
+  { label: 'Programs', href: '/packages/' },
   { label: 'Team', href: '/team/' },
   { label: 'FAQ', href: '/faq/' },
 ] as const;
@@ -126,23 +132,33 @@ export const nav = [
 export type Person = { name: string; role: string; body: string };
 
 /**
- * Meet the team. Patrick and Andrew are the two names that appear in the public Google reviews;
- * the one-line roles and the blurbs are written from what those reviews say they do, nothing
- * more. CONFIRM titles and wording with the client before launch, and swap in real photos if they
- * want them (no photos are shown until then; no AI renders of real people).
+ * Meet the team. Names, titles and bios are the client's own, from the Team page of their
+ * original site (typo "knowledgable" fixed). CONFIRM the three are still current before launch.
+ * No photos until the client supplies real ones.
  */
 export const team: readonly Person[] = [
   {
-    name: 'Patrick',
-    role: 'Leads the crew',
-    body: 'The name you will see most in the reviews. Patrick runs the work on site, start to finish: the crew arrives when they said they would, the job gets done properly, and the yard is left clean.',
+    name: 'Patrick Warren',
+    role: 'Owner',
+    body: 'Patrick started the company in 2005 and has been operating and growing it steadily ever since. A graduate of the University of Guelph with a degree in Business and Economics.',
   },
   {
-    name: 'Andrew',
-    role: 'Quotes and site visits',
-    body: 'Often the first person you meet. Andrew comes out to the property, takes the time to walk it with you without rushing, and puts together a fair, written quote.',
+    name: 'Brent Graham',
+    role: 'Project Manager',
+    body: 'Brent has spent the last 20 years working with and studying turf, trees, weeds and insects, specifically in golf course maintenance. He graduated from the University of Guelph with a diploma in Turfgrass Management.',
+  },
+  {
+    name: 'James Boodram',
+    role: 'Maintenance Manager',
+    body: 'James has been with Luxury for 5+ years and has looked after the daily maintenance from the start. He is very knowledgeable in everything landscaping and we are lucky to have him on the team.',
   },
 ] as const;
+
+/** Careers line, from the client's original Careers page. */
+export const careers = {
+  heading: 'Work with us',
+  body: 'Luxury Landscaping is expanding. We hire like minds into technical, design and management roles.',
+} as const;
 
 export type Faq = { q: string; a: string };
 
@@ -173,7 +189,7 @@ export const faqs: readonly Faq[] = [
   },
   {
     q: 'How do I reach you?',
-    a: 'Call (905) 781-3648 or use the quote form on the home page. Our base is 1824 Medallion Ct, Mississauga, ON L5J 2L7.',
+    a: 'Call (905) 781-3648, email sales@luxurylandscaping.ca, or use the quote form on the home page. Our base is 1824 Medallion Ct, Mississauga, ON L5J 2L7.',
   },
 ] as const;
 

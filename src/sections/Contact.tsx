@@ -1,4 +1,4 @@
-﻿import { ArrowRight, CheckCircle, MapPin, Phone, WarningCircle } from '@phosphor-icons/react';
+﻿import { ArrowRight, CheckCircle, EnvelopeSimple, MapPin, Phone, WarningCircle } from '@phosphor-icons/react';
 import { useState, type FormEvent } from 'react';
 import { allServices, contact } from '../content/site';
 
@@ -10,8 +10,15 @@ type Status = 'idle' | 'sending' | 'sent' | 'error';
  * Netlify build crawler registers it. Submission is a fetch to "/" so the page never reloads and
  * the success / error state is shown inline. Hosting elsewhere: point `action` at your endpoint.
  */
+/** `/?program=Deluxe#contact` (from the packages page) pre-selects the programs service and starts the message. */
+function programFromUrl(): string {
+  const raw = new URLSearchParams(window.location.search).get('program') ?? '';
+  return /^[A-Za-z ]{1,40}$/.test(raw) ? raw : '';
+}
+
 export function Contact() {
   const [status, setStatus] = useState<Status>('idle');
+  const program = programFromUrl();
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -45,6 +52,10 @@ export function Contact() {
             <a href={contact.phoneHref}>
               <Phone size={20} aria-hidden="true" />
               {contact.phone}
+            </a>
+            <a href={`mailto:${contact.email}`}>
+              <EnvelopeSimple size={20} aria-hidden="true" />
+              {contact.email}
             </a>
             <a href={contact.mapsUrl} target="_blank" rel="noopener noreferrer">
               <MapPin size={20} aria-hidden="true" />
@@ -87,7 +98,7 @@ export function Contact() {
             </div>
             <div className="form__field">
               <label htmlFor="f-service">Service <span className="form__req">(optional)</span></label>
-              <select id="f-service" name="service" defaultValue="">
+              <select id="f-service" name="service" defaultValue={program ? 'Lawn care programs' : ''}>
                 <option value="">Not sure yet</option>
                 {allServices.map((s) => (
                   <option key={s} value={s}>
@@ -100,7 +111,13 @@ export function Contact() {
 
           <div className="form__field">
             <label htmlFor="f-message">What would you like done? <span className="form__req">(required)</span></label>
-            <textarea id="f-message" name="message" rows={4} required />
+            <textarea
+              id="f-message"
+              name="message"
+              rows={4}
+              required
+              defaultValue={program ? `I'm interested in the ${program} lawn care program.` : ''}
+            />
           </div>
 
           <p className="form__privacy">

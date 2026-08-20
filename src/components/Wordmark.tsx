@@ -1,14 +1,14 @@
-import { Leaf } from '@phosphor-icons/react';
 import { company } from '../content/site';
 
 /**
- * Typographic wordmark. The client has not supplied a logo file; when one arrives, replace the
- * contents of this component with an <img> and keep the same box so the masthead does not shift.
+ * Brand lockup: the client's diamond-mosaic logo mark (from their original Wix site, background
+ * removed) beside the company name set in the site's display face. The full lockup with the
+ * original black wordmark lives at /logo-full.png for use on light surfaces (print, OG images).
  */
 export function Wordmark({ light = false }: { light?: boolean }) {
   return (
     <span className="wordmark" data-light={light}>
-      <Leaf size={22} weight="fill" aria-hidden="true" />
+      <img src="/logo-mark.png" alt="" width="30" height="34" aria-hidden="true" />
       <span>{company.name}</span>
     </span>
   );

@@ -3,12 +3,12 @@ import { useRef } from 'react';
 import { CookieConsent } from '../components/CookieConsent';
 import { Footer } from '../components/Footer';
 import { Masthead } from '../components/Masthead';
-import { contact, cta, team } from '../content/site';
+import { careers, contact, cta, team } from '../content/site';
 import { useReveal } from '../lib/reveal';
 
 /**
- * /team/ is its own document, like /faq/. Two people, two columns, no portraits until the client
- * supplies real ones. The copy is short on purpose: the reviews on the home page are the proof.
+ * /team/ is its own document, like /faq/. Three people from the client's original site, no
+ * portraits until the client supplies real ones, and the careers line from their Careers page.
  */
 export default function TeamPage() {
   const main = useRef<HTMLElement>(null);
@@ -23,8 +23,8 @@ export default function TeamPage() {
       <main id="main" ref={main} tabIndex={-1} className="team section">
         <div className="shell">
           <div className="team__head">
-            <h1 className="display-l reveal">The people who show up.</h1>
-            <p className="lede reveal">A small Mississauga crew, working across the GTA.</p>
+            <h1 className="display-l reveal">The people behind the work.</h1>
+            <p className="lede reveal">Based in Mississauga, working across the GTA.</p>
           </div>
           <ul className="team__grid">
             {team.map((p) => (
@@ -35,6 +35,12 @@ export default function TeamPage() {
               </li>
             ))}
           </ul>
+          <section className="team__careers reveal" aria-labelledby="careers-heading">
+            <h2 id="careers-heading">{careers.heading}</h2>
+            <p>
+              {careers.body} Email <a href={`mailto:${contact.careersEmail}`}>{contact.careersEmail}</a>.
+            </p>
+          </section>
           <div className="team__foot reveal">
             <a className="btn" href={cta.href}>
               {cta.label}

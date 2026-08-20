@@ -53,8 +53,10 @@
   color: var(--on-surface);
   white-space: nowrap;
 }
-.wordmark svg {
-  color: var(--green);
+.wordmark img {
+  width: 30px;
+  height: 34px;
+  object-fit: contain;
   flex: none;
 }
 @media (max-width: 479px) {

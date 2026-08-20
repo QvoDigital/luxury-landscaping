@@ -2,6 +2,7 @@
 import { CookieConsent } from './components/CookieConsent';
 import { Footer } from './components/Footer';
 import { Masthead } from './components/Masthead';
+import { useHashScroll } from './lib/hash';
 import { useReveal } from './lib/reveal';
 import { Contact } from './sections/Contact';
 import { Hero } from './sections/Hero';
@@ -11,6 +12,7 @@ import { Services } from './sections/Services';
 export default function App() {
   const main = useRef<HTMLElement>(null);
   useReveal(main);
+  useHashScroll();
 
   return (
     <>
