@@ -55,6 +55,7 @@ branch; `color-scheme: dark` so native form controls match.
 - Scale `4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 96 / 128`px as `--space-*`.
 - Shell `min(1320px, 100% - 2 * gutter)`, gutter `clamp(20px, 4vw, 64px)`.
 - Section rhythm `clamp(88px, 11vw, 160px)`.
+- Masthead is 84px (`--nav-h`), raised from 72px on 2026-08-20 to carry the 68px logo lockup.
 - **Shape lock: radius 4px everywhere.** Buttons, inputs, icon buttons. No pills, no cards. The
   one documented exception is the on/off switch in the cookie-preferences dialog, which is a
   pill because that is the shape users read as a switch.
