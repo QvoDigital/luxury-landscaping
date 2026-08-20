@@ -18,6 +18,6 @@ dist-ssr
 Thumbs.db
 *.log
 
-# Scratch. Frame sequences under public/seq are committed on purpose: they are the site's
-# footage, not build output, and there is no pipeline that can regenerate them from source.
+# Scratch. Everything under public/ (photos, logo, icons, share card) is committed on purpose:
+# it is the site's content, not build output.
 .work
