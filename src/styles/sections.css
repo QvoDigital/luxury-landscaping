@@ -1076,12 +1076,8 @@
   gap: var(--space-3);
   color: var(--on-surface-muted);
 }
-.footer__brand .wordmark {
-  font-size: 1.75rem;
-}
 .footer__brand .wordmark img {
-  width: 72px;
-  height: 82px;
+  height: 96px;
 }
 .footer address {
   line-height: 1.7;

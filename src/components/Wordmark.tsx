@@ -1,15 +1,15 @@
 import { company } from '../content/site';
 
 /**
- * Brand lockup: the client's diamond-mosaic logo mark (from their original Wix site, background
- * removed) beside the company name set in the site's display face. The full lockup with the
- * original black wordmark lives at /logo-full.png for use on light surfaces (print, OG images).
+ * The client's logo exactly as it appears on their original site: the four-diamond mark with the
+ * serif "Luxury / LANDSCAPING" wordmark. /logo-lockup.png is that artwork with the paper removed
+ * and the black lettering turned white for the dark site; the mark's colours are untouched.
+ * /logo-full.png is the same cut-out with black lettering, for light surfaces (print, documents).
  */
-export function Wordmark({ light = false }: { light?: boolean }) {
+export function Wordmark() {
   return (
-    <span className="wordmark" data-light={light}>
-      <img src="/logo-mark.png" alt="" width="52" height="60" aria-hidden="true" />
-      <span>{company.name}</span>
+    <span className="wordmark">
+      <img src="/logo-lockup.png" alt={company.name} width="358" height="144" />
     </span>
   );
 }
