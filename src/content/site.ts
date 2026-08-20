@@ -179,6 +179,21 @@ export const faqs: readonly Faq[] = [
   },
 ] as const;
 
+export type WorkPhoto = { id: string; alt: string; width: number; height: number };
+
+/**
+ * Photos of real jobs, taken from the photos the business itself uploaded to its Google Business
+ * Profile ("By owner", 2023-2024). Customer-uploaded photos were deliberately not used. Files are
+ * public/photos/work-{id}-{800,1600}.jpg. Alt text describes only what is visible.
+ */
+export const work: readonly WorkPhoto[] = [
+  { id: 'backyard', alt: 'A finished backyard: fresh sod, a row of young cedars along a new fence and a stone patio.', width: 1600, height: 1200 },
+  { id: 'walkway', alt: 'A new interlock walkway with a dark border and a river-rock edge beside a driveway.', width: 1600, height: 2133 },
+  { id: 'front-garden', alt: 'A front garden bed edged in stone, set into a lawn beside an interlock path.', width: 1600, height: 1200 },
+  { id: 'rock-border', alt: 'A front walkway lined with a river-rock border and a freshly cut lawn.', width: 1600, height: 1493 },
+  { id: 'tree-ring', alt: 'A freshly mulched ring around a mature tree on a front lawn.', width: 1408, height: 1056 },
+] as const;
+
 /** The four lawn care programs as they appear in the quote form's Service dropdown. */
 export const programOptions = ['Basic program', 'Deluxe program', 'Luxury program', 'Consulting'] as const;
 

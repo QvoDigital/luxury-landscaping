@@ -358,6 +358,44 @@
   }
 }
 
+/* ---------- Our work: one large photo, four small ---------- */
+.work__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: clamp(40px, 6vw, 72px);
+}
+.work__grid li {
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+.work__grid li:first-child {
+  grid-column: span 3;
+  grid-row: span 2;
+}
+.work__grid img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+}
+.work__grid li:first-child img {
+  aspect-ratio: 4 / 3;
+}
+@media (max-width: 899px) {
+  .work__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+  }
+  .work__grid li:first-child {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+}
+
 /* ---------- Reviews ---------- */
 .reviews {
   background: var(--surface-2);

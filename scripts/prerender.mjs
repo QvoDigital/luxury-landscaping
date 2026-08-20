@@ -19,7 +19,7 @@ import { fileURLToPath } from 'node:url';
 import { legalDocs, legalMeta } from '../src/content/legal.ts';
 import { packages, serviceAreas } from '../src/content/services.ts';
 import { plain } from '../src/lib/rich.ts';
-import { company, contact, faqs, reviews, serviceGroups, team } from '../src/content/site.ts';
+import { company, contact, faqs, reviews, serviceGroups, team, work } from '../src/content/site.ts';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const distIndex = join(root, 'dist', 'index.html');
@@ -46,6 +46,8 @@ function buildShell() {
         <p>${esc(company.sub)}</p>
         <h2>Services</h2>
           ${groups}
+        <h2>Our work</h2>
+          ${work.map((p) => `<img src="/photos/work-${p.id}-800.jpg" alt="${esc(p.alt)}" width="${p.width}" height="${p.height}" />`).join('')}
         <h2>What homeowners say</h2>
           ${quotes}
         <p><a href="/services/">Every service in detail</a> | <a href="/packages/">Lawn care programs</a> | <a href="/team/">Meet the team</a> | <a href="/faq/">Frequently asked questions</a></p>

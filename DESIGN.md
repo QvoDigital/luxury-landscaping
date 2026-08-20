@@ -82,8 +82,9 @@ instant. Nothing is gated behind an animation; without JavaScript everything is 
 |---|---|---|
 | 1 | Hero | Full-bleed sticky photograph, copy bottom-left |
 | 2 | Doors | Two half-width links over one rule, each previewing the page behind it (/services/, /packages/) |
-| 3 | Reviews | Sticky heading + single column of quotes, 5/7 split |
-| 4 | Contact | Sticky intro + two-column form |
+| 3 | Work | One large photo + four small, 5-column grid; real job photos from the Google Business Profile |
+| 4 | Reviews | Sticky heading + single column of quotes, 5/7 split |
+| 5 | Contact | Sticky intro + two-column form |
 
 Four sections, four families. No cards, no photos outside the hero. `/faq/` is a second document
 (sticky heading + definition list) sharing the masthead and footer.
