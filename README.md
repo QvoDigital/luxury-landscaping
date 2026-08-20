@@ -53,7 +53,9 @@ DevTools to verify a choice took effect).
 1. Confirm Patrick's and Andrew's roles and blurbs on /team/ (written from the Google reviews only)
    and add real photos if they want them.
 2. Supply a logo file if one exists and swap it into `src/components/Wordmark.tsx`.
-3. The quote form is wired for Netlify Forms (form name `quote`). **Submissions go to
+3. `404.html` is the not-found page; Netlify serves it automatically. On other hosts, point the
+   404 rule at it.
+4. The quote form is wired for Netlify Forms (form name `quote`). **Submissions go to
    sales@luxurylandscaping.ca**: after the first deploy, in Netlify open Forms → quote →
    Notifications → Email notification and enter that address. The hidden `subject` field sets
    the email subject. On other hosts, point the form

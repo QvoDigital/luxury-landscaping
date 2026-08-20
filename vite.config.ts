@@ -17,6 +17,7 @@ export default defineConfig({
         team: 'team/index.html',
         services: 'services/index.html',
         packages: 'packages/index.html',
+        notfound: '404.html',
         privacy: 'privacy/index.html',
         terms: 'terms/index.html',
         cookies: 'cookies/index.html',
