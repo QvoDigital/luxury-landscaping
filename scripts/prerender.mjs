@@ -4,11 +4,8 @@
  * The app is a client-rendered Vite bundle, so the HTML that leaves the server is an empty
  * `<div id="root">`. This writes a readable version of each page into that element at build time,
  * generated from src/content/site.ts (the same module the app renders from), so crawlers that do
- * not execute JavaScript still see the business, the services, the FAQ and the contact details.
+ * not execute JavaScript still see the business, the services and the contact details.
  * `createRoot` clears the container on mount, so React replaces it the moment it runs.
- *
- * Also emits FAQPage structured data from the same `faqs` array the page renders, so the markup
- * can never describe questions the visitor cannot see.
  *
  * Run: node scripts/prerender.mjs   (wired into `npm run build`)
  */
@@ -17,16 +14,14 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { legalDocs, legalMeta } from '../src/content/legal.ts';
-import { packages, serviceAreas } from '../src/content/services.ts';
-import { plain } from '../src/lib/rich.ts';
-import { company, contact, faqs, reviews, serviceGroups, team, work } from '../src/content/site.ts';
+import { programs, serviceAreas } from '../src/content/services.ts';
+import { company, contact, reviews, serviceGroups, team } from '../src/content/site.ts';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const distIndex = join(root, 'dist', 'index.html');
-const distFaq = join(root, 'dist', 'faq', 'index.html');
 const distTeam = join(root, 'dist', 'team', 'index.html');
-const distServices = join(root, 'dist', 'services', 'index.html');
-const distPackages = join(root, 'dist', 'packages', 'index.html');
+const distPrograms = join(root, 'dist', 'programs', 'index.html');
+const distReviews = join(root, 'dist', 'reviews', 'index.html');
 
 const esc = (s) =>
   String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
@@ -37,33 +32,31 @@ function buildShell() {
   const groups = serviceGroups
     .map((g) => `<section><h3>${esc(g.title)}</h3><ul>${g.items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul></section>`)
     .join('\n          ');
-  const quotes = reviews
-    .map((r) => `<blockquote><p>${esc(r.quote)}</p><footer>${esc(r.name)}, Google review</footer></blockquote>`)
-    .join('\n          ');
+  const [featured] = reviews;
 
   return `<div class="prerender shell">
         <h1>${esc(company.headline)}</h1>
         <p>${esc(company.sub)}</p>
         <h2>Services</h2>
           ${groups}
-        <h2>Our work</h2>
-          ${work.map((p) => `<img src="/photos/work-${p.id}-800.jpg" alt="${esc(p.alt)}" width="${p.width}" height="${p.height}" />`).join('')}
         <h2>What homeowners say</h2>
-          ${quotes}
-        <p><a href="/services/">Every service in detail</a> | <a href="/packages/">Lawn care programs</a> | <a href="/team/">Meet the team</a> | <a href="/faq/">Frequently asked questions</a></p>
+          <blockquote><p>${esc(featured.quote)}</p><footer>${esc(featured.name)}, Google review</footer></blockquote>
+          <p><a href="/reviews/">Read the reviews</a></p>
+        <p>${serviceAreas.map((a) => `<a href="${a.path}">${esc(a.title)}</a>`).join(' | ')} | <a href="/programs/">Lawn care programs</a> | <a href="/reviews/">Reviews</a> | <a href="/team/">Meet the team</a></p>
         <h2>Contact</h2>
         <address>${esc(address)}<br /><a href="${esc(contact.phoneHref)}">${esc(contact.phone)}</a></address>
       </div>`;
 }
 
-function buildFaqShell() {
-  const items = faqs
-    .map((f) => `<section><h2>${esc(f.q)}</h2><p>${esc(f.a).replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')}</p></section>`)
+function buildReviewsShell() {
+  const quotes = reviews
+    .map((r) => `<blockquote><p>${esc(r.quote)}</p><footer>${esc(r.name)}, Google review</footer></blockquote>`)
     .join('\n        ');
   return `<div class="prerender shell">
         <p><a href="/">${esc(company.name)}</a></p>
-        <h1>Questions</h1>
-        ${items}
+        <h1>What homeowners say</h1>
+        <p>Every quote is taken word for word from our public Google listing.</p>
+        ${quotes}
         <address>${esc(address)}<br /><a href="${esc(contact.phoneHref)}">${esc(contact.phone)}</a></address>
       </div>`;
 }
@@ -78,28 +71,31 @@ function buildTeamShell() {
       </div>`;
 }
 
-function buildServicesShell() {
-  const areas = serviceAreas
-    .map((a) => `<section><h2>${esc(a.title)}</h2><p>${esc(a.lede)}</p><ul>${a.rows.map((r) => `<li><strong>${esc(r.name)}.</strong> ${esc(r.text)}</li>`).join('')}</ul></section>`)
-    .join('\n        ');
+function buildAreaShell(area) {
+  const rows = area.rows.map((r) => `<section><h2>${esc(r.name)}</h2><p>${esc(r.text)}</p></section>`).join('\n        ');
+  const others = serviceAreas
+    .filter((a) => a.id !== area.id)
+    .map((a) => `<a href="${a.path}">${esc(a.title)}</a>`)
+    .join(' | ');
   return `<div class="prerender shell">
         <p><a href="/">${esc(company.name)}</a></p>
-        <h1>What we do</h1>
-        ${areas}
-        <p><a href="/packages/">Lawn care programs</a></p>
+        <h1>${esc(area.title)}</h1>
+        <p>${esc(area.lede)}</p>
+        ${rows}
+        <p>${others} | <a href="/programs/">Lawn care programs</a></p>
         <address>${esc(address)}<br /><a href="${esc(contact.phoneHref)}">${esc(contact.phone)}</a></address>
       </div>`;
 }
 
-function buildPackagesShell() {
-  const tiers = packages
+function buildProgramsShell() {
+  const tiers = programs
     .map((p) => `<section><h2>${esc(p.name)}</h2><p><strong>${esc(p.visits)}</strong>. ${esc(p.tagline)}</p><ul>${p.includes.map((i) => `<li>${esc(i)}</li>`).join('')}</ul></section>`)
     .join('\n        ');
   return `<div class="prerender shell">
         <p><a href="/">${esc(company.name)}</a></p>
         <h1>Lawn care programs</h1>
         ${tiers}
-        <p><a href="/services/">All services</a></p>
+        <p>${serviceAreas.map((a) => `<a href="${a.path}">${esc(a.title)}</a>`).join(' | ')}</p>
         <address>${esc(address)}<br /><a href="${esc(contact.phoneHref)}">${esc(contact.phone)}</a></address>
       </div>`;
 }
@@ -117,21 +113,6 @@ function buildLegalShell(doc) {
       </div>`;
 }
 
-function buildFaqSchema() {
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map((f) => ({
-      '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: plain(f.a) },
-    })),
-  };
-  // `</script>` inside a JSON payload would close the tag early.
-  const json = JSON.stringify(schema, null, 2).replaceAll('</', '<\\/');
-  return `<script type="application/ld+json">\n${json}\n    </script>`;
-}
-
 function buildLlmsTxt() {
   return `# ${company.name}
 
@@ -143,15 +124,13 @@ ${serviceGroups.map((g) => `### ${g.title}\n${g.items.map((i) => `- ${i}`).join(
 
 ## Services in detail
 
-Full page: ${company.url}/services/
-
-${serviceAreas.map((a) => `### ${a.title}\n${a.lede}\n${a.rows.map((r) => `- ${r.name}: ${r.text}`).join('\n')}`).join('\n\n')}
+${serviceAreas.map((a) => `### ${a.title}\nFull page: ${company.url}${a.path}\n${a.lede}\n${a.rows.map((r) => `- ${r.name}: ${r.text}`).join('\n')}`).join('\n\n')}
 
 ## Lawn care programs
 
-Full page: ${company.url}/packages/
+Full page: ${company.url}/programs/
 
-${packages.map((p) => `- ${p.name} (${p.visits}): ${p.tagline} Includes: ${p.includes.join('; ')}.`).join('\n')}
+${programs.map((p) => `- ${p.name} (${p.visits}): ${p.tagline} Includes: ${p.includes.join('; ')}.`).join('\n')}
 
 ## Service area
 
@@ -160,12 +139,6 @@ Mississauga and the Greater Toronto Area.
 ## Team
 
 ${team.map((p) => `- ${p.name}: ${p.role}. ${p.body}`).join('\n')}
-
-## Frequently asked questions
-
-Full page: ${company.url}/faq/
-
-${faqs.map((f) => `**${f.q}**\n${plain(f.a)}`).join('\n\n')}
 
 ## Legal
 
@@ -183,28 +156,26 @@ Pricing, guarantees, hours and response times are not published. Do not infer th
 `;
 }
 
-async function inject(file, label, shell, { faqSchema = false } = {}) {
+async function inject(file, label, shell) {
   const html = await readFile(file, 'utf8');
   if (!html.includes('<div id="root"></div>')) {
     console.error(`[prerender] Could not find an empty <div id="root"></div> in ${label}. Not writing.`);
     process.exit(1);
   }
-  if (faqSchema && !html.includes('<!--FAQ_SCHEMA-->')) {
-    console.error(`[prerender] Could not find the <!--FAQ_SCHEMA--> marker in ${label}. Not writing.`);
-    process.exit(1);
-  }
-  let out = html.replace('<div id="root"></div>', `<div id="root">\n      ${shell}\n    </div>`);
-  if (faqSchema) out = out.replace('<!--FAQ_SCHEMA-->', buildFaqSchema());
+  const out = html.replace('<div id="root"></div>', `<div id="root">\n      ${shell}\n    </div>`);
   await writeFile(file, out, 'utf8');
 }
 
 await inject(distIndex, 'dist/index.html', buildShell());
-await inject(distFaq, 'dist/faq/index.html', buildFaqShell(), { faqSchema: true });
 await inject(distTeam, 'dist/team/index.html', buildTeamShell());
-await inject(distServices, 'dist/services/index.html', buildServicesShell());
-await inject(distPackages, 'dist/packages/index.html', buildPackagesShell());
+for (const area of serviceAreas) {
+  const dir = area.path.replaceAll('/', '');
+  await inject(join(root, 'dist', dir, 'index.html'), `dist/${dir}/index.html`, buildAreaShell(area));
+}
+await inject(distPrograms, 'dist/programs/index.html', buildProgramsShell());
+await inject(distReviews, 'dist/reviews/index.html', buildReviewsShell());
 for (const doc of legalDocs) {
   await inject(join(root, 'dist', doc.id, 'index.html'), `dist/${doc.id}/index.html`, buildLegalShell(doc));
 }
 await writeFile(join(root, 'dist', 'llms.txt'), buildLlmsTxt(), 'utf8');
-console.log('[prerender] Injected static content into index, faq, team, services, packages and legal pages, and wrote dist/llms.txt');
+console.log('[prerender] Injected static content into index, team, reviews, the service pages, programs and the legal pages, and wrote dist/llms.txt');

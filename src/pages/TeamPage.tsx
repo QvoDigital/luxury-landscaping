@@ -8,7 +8,7 @@ import { careers, contact, cta, team } from '../content/site';
 import { useReveal } from '../lib/reveal';
 
 /**
- * /team/ is its own document, like /faq/. Three people from the client's original site, no
+ * /team/ is its own document, like the service pages. Three people from the client's original site, no
  * portraits until the client supplies real ones, and the careers line from their Careers page.
  */
 export default function TeamPage() {
@@ -25,10 +25,10 @@ export default function TeamPage() {
         <div className="shell">
           <div className="team__head">
             <BackLink href="/" />
-            <h1 className="display-l reveal">The people behind the work.</h1>
+            <h1 className="display-l wipe">The people behind the work.</h1>
             <p className="lede reveal">Based in Mississauga, working across the GTA.</p>
           </div>
-          <ul className="team__grid">
+          <ul className="team__grid rule">
             {team.map((p) => (
               <li key={p.name} className="team__person reveal">
                 <h2>{p.name}</h2>
@@ -37,9 +37,11 @@ export default function TeamPage() {
               </li>
             ))}
           </ul>
-          <section className="team__careers reveal" aria-labelledby="careers-heading">
-            <h2 id="careers-heading">{careers.heading}</h2>
-            <p>
+          <section className="team__careers rule" aria-labelledby="careers-heading">
+            <h2 id="careers-heading" className="reveal">
+              {careers.heading}
+            </h2>
+            <p className="reveal">
               {careers.body} Email <a href={`mailto:${contact.careersEmail}`}>{contact.careersEmail}</a>.
             </p>
           </section>

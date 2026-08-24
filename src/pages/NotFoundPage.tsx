@@ -2,7 +2,7 @@ import { ArrowRight } from '@phosphor-icons/react';
 import { CookieConsent } from '../components/CookieConsent';
 import { Footer } from '../components/Footer';
 import { Masthead } from '../components/Masthead';
-import { contact, cta, nav } from '../content/site';
+import { contact, cta, navPages } from '../content/site';
 
 /**
  * /404.html, served by the host for any path that does not exist (Netlify picks it up by name).
@@ -29,7 +29,7 @@ export default function NotFoundPage() {
                 <ArrowRight size={16} weight="bold" aria-hidden="true" />
               </a>
             </li>
-            {nav.map((n) => (
+            {navPages.map((n) => (
               <li key={n.href}>
                 <a href={n.href}>
                   {n.label}

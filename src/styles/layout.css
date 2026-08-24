@@ -70,6 +70,84 @@
 .masthead__nav a:hover {
   color: var(--on-surface);
 }
+
+/* "Services" holds three pages instead of pointing at one, so it is a button with a small panel
+   under it. Mouse opens it on hover, keyboard on Enter; the panel is hidden from the tab order
+   while closed. */
+.navgroup {
+  position: relative;
+}
+.navgroup__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 500;
+  color: var(--on-surface-muted);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.navgroup__btn:hover,
+.navgroup__btn[aria-expanded='true'] {
+  color: var(--on-surface);
+}
+.navgroup__btn svg {
+  transition: transform var(--dur) var(--ease-out);
+}
+.navgroup__btn[aria-expanded='true'] svg {
+  transform: rotate(180deg);
+}
+.navgroup__menu {
+  position: absolute;
+  top: calc(100% + var(--space-4));
+  left: calc(var(--space-4) * -1);
+  display: grid;
+  gap: var(--space-1);
+  min-width: 13rem;
+  padding: var(--space-3);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition:
+    opacity var(--dur) var(--ease-out),
+    transform var(--dur) var(--ease-out),
+    visibility 0s linear var(--dur);
+}
+.navgroup__menu[data-open='true'] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+.navgroup__menu a {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius);
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.navgroup__menu a:hover,
+.navgroup__menu a:focus-visible {
+  background: var(--green-tint);
+  color: var(--on-surface);
+}
+@media (prefers-reduced-motion: reduce) {
+  .navgroup__menu {
+    transition: none;
+  }
+  .navgroup__btn svg {
+    transition: none;
+  }
+}
 .masthead__actions {
   display: flex;
   align-items: center;
@@ -172,6 +250,17 @@
   .masthead__panel .btn {
     width: 100%;
     justify-content: center;
+  }
+  .masthead__panelgroup > h2 {
+    padding-top: var(--space-4);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--on-surface-muted);
+  }
+  .masthead__panelgroup > ul {
+    margin-bottom: 0;
   }
 }
 

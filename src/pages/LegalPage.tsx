@@ -24,7 +24,7 @@ export default function LegalPage({ doc }: { doc: LegalDoc }) {
       <main id="main" ref={main} tabIndex={-1} className="legal section">
         <div className="shell legal__grid">
           <aside className="legal__side">
-            <h1 className="display-l reveal">{doc.title}</h1>
+            <h1 className="display-l wipe">{doc.title}</h1>
             <p className="legal__meta reveal">Last updated {legalMeta.updated}</p>
             <nav aria-label="Legal pages" className="reveal">
               <ul>

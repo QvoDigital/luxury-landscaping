@@ -29,7 +29,7 @@ function mailtoFor(f: Record<string, string>): string {
  */
 const FORM_ENDPOINT = `https://formsubmit.co/ajax/${contact.email}`;
 /**
- * `/?program=Deluxe#contact` (from the packages page) pre-selects that program in the Service
+ * `/?program=Deluxe#contact` (from the programs page) pre-selects that program in the Service
  * dropdown and starts the message. Anything that is not one of the four programs is ignored.
  */
 function programFromUrl(): string {
@@ -73,7 +73,7 @@ export function Contact() {
     <section id="contact" className="contact section" aria-labelledby="contact-heading">
       <div className="shell contact__grid">
         <div className="contact__intro">
-          <h2 id="contact-heading" className="display-l reveal">
+          <h2 id="contact-heading" className="display-l wipe">
             Get a quote.
           </h2>
           <p className="lede reveal">Mississauga and the GTA. Here is how it works.</p>

@@ -165,10 +165,14 @@
   }
 }
 
-/* ---------- Home: two doors (services, programs) ---------- */
+/* ---------- Home: three doors, one per service page ---------- */
+.doors__lede {
+  margin-top: var(--space-4);
+  max-width: 34ch;
+}
 .doors__grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-top: clamp(40px, 6vw, 72px);
   border-top: 1px solid var(--line-strong);
 }
@@ -182,10 +186,10 @@
 }
 .door + .door {
   border-left: 1px solid var(--line);
-  padding-left: clamp(32px, 5vw, 72px);
+  padding-left: clamp(24px, 3.5vw, 56px);
 }
-.door:first-child {
-  padding-right: clamp(32px, 5vw, 72px);
+.door:not(:last-child) {
+  padding-right: clamp(24px, 3.5vw, 56px);
 }
 .door > p {
   color: var(--on-surface-muted);
@@ -217,7 +221,7 @@
   outline-offset: 6px;
   border-radius: var(--radius);
 }
-@media (max-width: 799px) {
+@media (max-width: 899px) {
   .doors__grid {
     grid-template-columns: 1fr;
   }
@@ -226,12 +230,12 @@
     border-top: 1px solid var(--line);
     padding-left: 0;
   }
-  .door:first-child {
+  .door:not(:last-child) {
     padding-right: 0;
   }
 }
 
-/* ---------- /services/ and /packages/: shared frame ---------- */
+/* ---------- Service pages and /programs/: shared frame ---------- */
 .back {
   justify-self: start;
   display: inline-flex;
@@ -282,6 +286,18 @@
 .menu__rows {
   display: grid;
 }
+.menu__body {
+  margin-top: clamp(48px, 7vw, 96px);
+  padding-top: clamp(20px, 2.5vw, 32px);
+  border-top: 1px solid var(--line-strong);
+}
+.menu__rows h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
 .menu__rows li {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
@@ -328,6 +344,56 @@
 .tier__link svg {
   color: var(--green);
 }
+.menu__more h2 {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--on-surface-muted);
+  margin-bottom: var(--space-4);
+}
+.menu__more ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5) clamp(24px, 5vw, 72px);
+}
+.menu__more li {
+  display: grid;
+  gap: var(--space-2);
+}
+.menu__more a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  justify-self: start;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--on-surface);
+  text-decoration: none;
+}
+.menu__more a svg {
+  color: var(--green);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.menu__more a:hover svg,
+.menu__more a:focus-visible svg {
+  transform: translateX(4px);
+}
+.menu__more a:hover,
+.menu__more a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+.menu__more span {
+  color: var(--on-surface-muted);
+  text-wrap: pretty;
+}
+@media (max-width: 599px) {
+  .menu__more ul {
+    grid-template-columns: 1fr;
+  }
+}
 .menu__actions {
   display: flex;
   flex-wrap: wrap;
@@ -338,7 +404,258 @@
   color: var(--on-surface-muted);
 }
 
-/* ---------- /packages/: four programs side by side ---------- */
+/* ---------- Service pages: the "watch it" demonstration ---------- */
+.demo {
+  margin-top: clamp(56px, 8vw, 112px);
+}
+.demo__head {
+  display: grid;
+  gap: var(--space-3);
+  padding-top: clamp(28px, 4vw, 40px);
+  border-top: 1px solid var(--line-strong);
+}
+.demo__head h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.demo__head p {
+  color: var(--on-surface-muted);
+}
+.demo__body {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+  margin-top: clamp(28px, 4vw, 48px);
+}
+.demo__tabs {
+  display: grid;
+  gap: var(--space-1);
+}
+.demo__tab {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 44px;
+  padding: var(--space-3) var(--space-4);
+  border: 0;
+  border-left: 2px solid var(--line);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: none;
+  font: inherit;
+  font-weight: 500;
+  text-align: left;
+  color: var(--on-surface-muted);
+  cursor: pointer;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+.demo__tab:hover {
+  color: var(--on-surface);
+  background: var(--surface-2);
+}
+.demo__tab[aria-selected='true'] {
+  color: var(--on-surface);
+  border-left-color: var(--green);
+  background: var(--surface-2);
+}
+.demo__tabnum {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--green);
+}
+.demo__panel {
+  display: grid;
+  gap: var(--space-4);
+}
+.demo__stage {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+/*
+ * Before/after in one frame. Both plates are stacked; the "after" is clipped to a left-hand slice
+ * whose width is --cut, and GSAP sweeps --cut from 0% to 100%. The same mechanic as the hero, so
+ * the change happens in place rather than cutting between two pictures, and the bright ::after
+ * line rides the leading edge exactly as the hero's mower line does.
+ */
+.demo__wipe {
+  --cut: 0%;
+  position: relative;
+  display: block;
+  margin: 0;
+  aspect-ratio: 16 / 9;
+}
+.demo__plate {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.demo__plate--after {
+  clip-path: inset(0 calc(100% - var(--cut)) 0 0);
+}
+.demo__edge {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent calc(var(--cut, 0%) - 1px),
+    rgb(246 247 244 / 0.85) calc(var(--cut, 0%) - 1px),
+    rgb(246 247 244 / 0.85) calc(var(--cut, 0%) + 1px),
+    transparent calc(var(--cut, 0%) + 1px)
+  );
+}
+.demo__badge {
+  position: absolute;
+  bottom: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--on-surface);
+}
+.demo__badge--before {
+  left: var(--space-3);
+}
+.demo__badge--after {
+  right: var(--space-3);
+  color: var(--green-hot);
+}
+.demo__video {
+  position: relative;
+  display: block;
+}
+.demo__video video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--surface-2);
+}
+.demo__trigger {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--on-surface);
+}
+/* Shown only when the browser refuses to autoplay (Low Power Mode, Data Saver, a strict autoplay
+   policy). A real button, so the press counts as the user gesture those policies are waiting for. */
+.demo__tap {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  border: 0;
+  background: color-mix(in srgb, var(--surface) 45%, transparent);
+  font: inherit;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--on-surface);
+  cursor: pointer;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .demo__badge,
+  .demo__trigger {
+    background: var(--surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+.demo__foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-3) var(--space-5);
+}
+.demo__foot p {
+  color: var(--on-surface-muted);
+  max-width: 52ch;
+  text-wrap: pretty;
+}
+.demo__replay {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  margin-right: calc(var(--space-3) * -1);
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--on-surface-muted);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.demo__replay:hover {
+  color: var(--on-surface);
+}
+.demo__replay svg {
+  color: var(--green);
+}
+@media (max-width: 899px) {
+  .demo__body {
+    grid-template-columns: 1fr;
+  }
+  /* Every option on screen at once. The earlier version was a horizontal strip, which hid options
+     off the edge behind a scroll gesture nobody was told about — so the tabs wrap instead. Short
+     labels share a line, long ones take their own, and nothing is ever out of sight. */
+  .demo__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .demo__tab {
+    flex: 0 1 auto;
+    width: auto;
+    grid-template-columns: auto minmax(0, auto);
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border-left: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    text-wrap: balance;
+  }
+  .demo__tab[aria-selected='true'] {
+    border-color: var(--green);
+    background: var(--green-tint);
+  }
+}
+
+/* ---------- /programs/: four programs side by side ---------- */
 .tiers {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -435,48 +752,108 @@
   }
 }
 
-/* ---------- Our work: one large photo, four small ---------- */
-.work__grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-  gap: var(--space-3);
-  margin-top: clamp(40px, 6vw, 72px);
-}
-.work__grid li {
-  overflow: hidden;
-  border-radius: var(--radius);
+/* ---------- Home: the season programs, their own band ---------- */
+.programs {
   background: var(--surface-2);
 }
-.work__grid li:first-child {
-  grid-column: span 3;
-  grid-row: span 2;
+.programs__head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: var(--space-5) var(--space-8);
 }
-.work__grid img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  aspect-ratio: 4 / 3;
+.programs__head p {
+  margin-top: var(--space-4);
+  color: var(--on-surface-muted);
+  max-width: 46ch;
+  text-wrap: pretty;
 }
-.work__grid li:first-child img {
-  aspect-ratio: 4 / 3;
+.programs__all {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-bottom: var(--space-1);
+  font-weight: 600;
+  text-decoration: none;
+}
+.programs__all svg {
+  color: var(--green);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.programs__all:hover,
+.programs__all:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.programs__all:hover svg,
+.programs__all:focus-visible svg {
+  transform: translateX(4px);
+}
+.programs__list {
+  display: grid;
+  margin-top: clamp(40px, 6vw, 72px);
+  border-top: 1px solid var(--line-strong);
+}
+.programs__list a {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 5fr) auto;
+  align-items: baseline;
+  gap: var(--space-2) clamp(16px, 3vw, 48px);
+  padding-block: clamp(20px, 2.6vw, 34px);
+  border-bottom: 1px solid var(--line);
+  color: var(--on-surface);
+  text-decoration: none;
+}
+.programs__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.programs__visits {
+  color: var(--green);
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+.programs__tagline {
+  color: var(--on-surface-muted);
+  text-wrap: pretty;
+}
+.programs__arrow {
+  align-self: center;
+  color: var(--green);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.programs__list a:hover .programs__name,
+.programs__list a:focus-visible .programs__name {
+  color: var(--green-hot);
+}
+.programs__list a:hover .programs__arrow,
+.programs__list a:focus-visible .programs__arrow {
+  transform: translateX(4px);
+}
+.programs__list a:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 4px;
 }
 @media (max-width: 899px) {
-  .work__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: none;
+  .programs__list a {
+    grid-template-columns: minmax(0, 1fr) auto;
   }
-  .work__grid li:first-child {
+  .programs__visits {
+    text-align: right;
+  }
+  .programs__tagline {
     grid-column: 1 / -1;
-    grid-row: auto;
+  }
+  .programs__arrow {
+    display: none;
   }
 }
 
-/* ---------- Reviews ---------- */
-.reviews {
-  background: var(--surface-2);
-}
+/* ---------- Reviews: one quote on the home page, all of them at /reviews/ ---------- */
 .reviews__grid {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
@@ -486,9 +863,27 @@
 .reviews__head {
   display: grid;
   justify-items: start;
-  gap: var(--space-4);
-  position: sticky;
-  top: calc(var(--nav-h) + var(--space-8));
+  gap: var(--space-5);
+}
+.reviews__more {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  text-decoration: none;
+}
+.reviews__more svg {
+  color: var(--green);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.reviews__more:hover,
+.reviews__more:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.reviews__more:hover svg,
+.reviews__more:focus-visible svg {
+  transform: translateX(4px);
 }
 .reviews__all {
   display: inline-flex;
@@ -499,23 +894,29 @@
 .reviews__all:hover {
   color: var(--on-surface);
 }
-.reviews__list {
+.reviews__page {
   display: grid;
   gap: var(--space-7);
+  margin-top: clamp(48px, 7vw, 96px);
+  padding-top: clamp(28px, 4vw, 40px);
+  border-top: 1px solid var(--line-strong);
 }
-.reviews__list li + li {
+.reviews__page li + li {
   padding-top: var(--space-7);
   border-top: 1px solid var(--line);
 }
-.reviews figure {
+.reviews figure,
+.reviews__page figure {
   margin: 0;
   display: grid;
   gap: var(--space-3);
 }
-.reviews blockquote {
+.reviews blockquote,
+.reviews__page blockquote {
   margin: 0;
 }
-.reviews blockquote p {
+.reviews blockquote p,
+.reviews__page blockquote p {
   font-family: var(--font-display);
   font-size: clamp(1.25rem, 1.9vw, 1.625rem);
   font-weight: 500;
@@ -524,16 +925,14 @@
   text-wrap: pretty;
   max-width: 36ch;
 }
-.reviews figcaption {
+.reviews figcaption,
+.reviews__page figcaption {
   color: var(--on-surface-muted);
   font-weight: 500;
 }
 @media (max-width: 899px) {
   .reviews__grid {
     grid-template-columns: 1fr;
-  }
-  .reviews__head {
-    position: static;
   }
 }
 /* ---------- Contact ---------- */
@@ -682,85 +1081,6 @@
   .form__foot .btn {
     width: 100%;
     justify-content: center;
-  }
-}
-
-/* ---------- FAQ page ---------- */
-.faq__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-  gap: clamp(32px, 6vw, 96px);
-  align-items: start;
-}
-.faq__head {
-  display: grid;
-  gap: var(--space-4);
-  position: sticky;
-  top: calc(var(--nav-h) + var(--space-8));
-}
-.faq__head .lede a {
-  color: var(--on-surface);
-  font-weight: 500;
-  white-space: nowrap;
-}
-.faq__links ul {
-  display: grid;
-  gap: var(--space-2);
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--line);
-}
-.faq__links a {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  text-decoration: none;
-  font-weight: 500;
-  color: var(--on-surface-muted);
-}
-.faq__links a:hover {
-  color: var(--on-surface);
-}
-.faq__links svg {
-  color: var(--green);
-}
-.faq__item dd a {
-  color: var(--on-surface);
-  font-weight: 500;
-}
-.faq__list {
-  margin: 0;
-  display: grid;
-}
-.faq__item {
-  display: grid;
-  gap: var(--space-3);
-  padding-block: var(--space-6);
-  border-top: 1px solid var(--line);
-}
-.faq__item:last-child {
-  border-bottom: 1px solid var(--line);
-}
-.faq__item dt {
-  font-family: var(--font-display);
-  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
-  font-weight: 600;
-  letter-spacing: -0.015em;
-}
-.faq__item dd {
-  margin: 0;
-  color: var(--on-surface-muted);
-  max-width: 62ch;
-  text-wrap: pretty;
-}
-.faq__foot {
-  margin-top: var(--space-8);
-}
-@media (max-width: 899px) {
-  .faq__grid {
-    grid-template-columns: 1fr;
-  }
-  .faq__head {
-    position: static;
   }
 }
 

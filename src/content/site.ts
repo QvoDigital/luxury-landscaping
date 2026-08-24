@@ -7,6 +7,10 @@
  * certifications or years-in-business unless the client supplies them.
  */
 
+// Extension included: scripts/prerender.mjs loads this file through Node, which will not
+// resolve an extensionless specifier the way Vite does.
+import { serviceAreas } from './services.ts';
+
 export const company = {
   name: 'Luxury Landscaping',
   tagline: 'Landscape design, build and lawn care across Mississauga and the GTA.',
@@ -98,13 +102,23 @@ export const heroPlates = {
   height: 1382,
 } as const;
 
-/** Header links: the two catalogue pages, Team and FAQ. Everything else is reached by scrolling. */
-export const nav = [
-  { label: 'Services', href: '/services/' },
-  { label: 'Programs', href: '/packages/' },
+export type NavLink = { label: string; href: string };
+export type NavEntry = NavLink | { label: string; items: readonly NavLink[] };
+
+/**
+ * Header links. "Services" is a label over the three service pages rather than a page of its own,
+ * so the header stays three items wide while every service is one click away. Everything else on
+ * the home page is reached by scrolling.
+ */
+export const nav: readonly NavEntry[] = [
+  { label: 'Services', items: serviceAreas.map((a) => ({ label: a.nav, href: a.path })) },
+  { label: 'Programs', href: '/programs/' },
+  { label: 'Reviews', href: '/reviews/' },
   { label: 'Team', href: '/team/' },
-  { label: 'FAQ', href: '/faq/' },
-] as const;
+];
+
+/** The same header links flattened to one list, for places that cannot show a group. */
+export const navPages: readonly NavLink[] = nav.flatMap((n) => ('items' in n ? [...n.items] : [n]));
 
 export type Person = { name: string; role: string; body: string };
 
@@ -132,67 +146,6 @@ export const careers = {
   heading: 'Work with us',
   body: 'Luxury Landscaping is expanding. We hire like minds into technical, design and management roles.',
 } as const;
-
-export type Faq = { q: string; a: string };
-
-/**
- * FAQ content. Every answer is limited to what the client has told us or what is on the Google
- * listing. No pricing, timelines, guarantees or named towns beyond "Mississauga and the GTA".
- * Links use [text](href); `renderRich` turns them into anchors and the prerender strips them.
- */
-export const faqs: readonly Faq[] = [
-  {
-    q: 'Where do you work?',
-    a: 'We are based in Mississauga and take on residential and commercial properties across the GTA. Not sure if we cover your address? [Send it through the quote form](/#contact) and we will tell you straight away.',
-  },
-  {
-    q: 'How does a quote work?',
-    a: '[Send the form](/#contact) or call [(905) 781-3648](tel:+19057813648). We come out, walk the property with you, and follow up with a written quote for the work discussed.',
-  },
-  {
-    q: 'What do you do?',
-    a: 'Three things: landscaping (design, build and maintain), lawn care (dethatching, aeration, fertilization, overseeding, weed and grub control, pruning) and winter snow removal. [See every service](/services/).',
-  },
-  {
-    q: 'What are the lawn care programs?',
-    a: 'Four ways to hand us the season: Basic (minimum 3 visits), Deluxe (minimum 4), Luxury (minimum 6) and Consulting (an expert on call). Each starts with a walk of your lawn. [Compare the programs](/packages/).',
-  },
-  {
-    q: 'Do you do one-off jobs or only ongoing programs?',
-    a: 'Both. [Design and build](/services/#landscaping) work is a one-off project. Lawn maintenance is weekly or bi-weekly, and the [lawn care programs](/packages/) run through the season.',
-  },
-  {
-    q: 'Do you clear snow?',
-    a: 'Yes. Residential coverage comes in three levels, from storms of 5 cm or more up to every snowfall with salting included, and commercial properties get 24/7 coverage across Mississauga and the GTA. [See the winter services](/services/#winter), then [contact us for pricing](/#contact).',
-  },
-  {
-    q: 'Do you work with businesses?',
-    a: 'Yes. Commercial lawn maintenance and [commercial winter services](/services/#winter) are part of what we do. Tell us about the property and we will quote it the same way.',
-  },
-  {
-    q: 'Who will I be dealing with?',
-    a: 'Patrick Warren, who started the company in 2005 and still runs it, and James Boodram, who looks after daily maintenance. [Meet the team](/team/).',
-  },
-  {
-    q: 'How do I reach you?',
-    a: 'Call [(905) 781-3648](tel:+19057813648), email [sales@luxurylandscaping.ca](mailto:sales@luxurylandscaping.ca), or [use the quote form](/#contact). Our base is 1824 Medallion Ct, Mississauga, ON L5J 2L7.',
-  },
-] as const;
-
-export type WorkPhoto = { id: string; alt: string; width: number; height: number };
-
-/**
- * Photos of real jobs, taken from the photos the business itself uploaded to its Google Business
- * Profile ("By owner", 2023-2024). Customer-uploaded photos were deliberately not used. Files are
- * public/photos/work-{id}-{800,1600}.jpg. Alt text describes only what is visible.
- */
-export const work: readonly WorkPhoto[] = [
-  { id: 'backyard', alt: 'A finished backyard: fresh sod, a row of young cedars along a new fence and a stone patio.', width: 1600, height: 1200 },
-  { id: 'walkway', alt: 'A new interlock walkway with a dark border and a river-rock edge beside a driveway.', width: 1600, height: 2133 },
-  { id: 'front-garden', alt: 'A front garden bed edged in stone, set into a lawn beside an interlock path.', width: 1600, height: 1200 },
-  { id: 'rock-border', alt: 'A front walkway lined with a river-rock border and a freshly cut lawn.', width: 1600, height: 1493 },
-  { id: 'tree-ring', alt: 'A freshly mulched ring around a mature tree on a front lawn.', width: 1408, height: 1056 },
-] as const;
 
 /** The four lawn care programs as they appear in the quote form's Service dropdown. */
 export const programOptions = ['Basic program', 'Deluxe program', 'Luxury program', 'Consulting'] as const;

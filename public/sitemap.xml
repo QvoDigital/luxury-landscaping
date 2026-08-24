@@ -6,17 +6,27 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://luxurylandscaping.ca/services/</loc>
+    <loc>https://luxurylandscaping.ca/landscaping/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://luxurylandscaping.ca/packages/</loc>
+    <loc>https://luxurylandscaping.ca/lawn-care/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://luxurylandscaping.ca/faq/</loc>
+    <loc>https://luxurylandscaping.ca/snow-removal/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luxurylandscaping.ca/programs/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://luxurylandscaping.ca/reviews/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

@@ -240,10 +240,69 @@ html.js .reveal.is-in {
   transition-delay: var(--reveal-delay, 0ms);
 }
 
+/*
+ * Headings sweep in from the left, and the hairline above a band draws the same way. Both repeat
+ * the hero's gesture: the maintained lawn is revealed left to right by a clip-path, like a mower
+ * pass, so every entrance on the page is that same stroke at a smaller size. Nothing rises, spins
+ * or scales — the page has one motion idea and uses it everywhere.
+ */
+.wipe {
+  clip-path: none;
+}
+
+html.js .wipe {
+  /* Negative insets on three sides so descenders and letter-spacing overhang are never clipped;
+     only the right edge does the work. */
+  clip-path: inset(-0.15em 100% -0.3em -0.1em);
+}
+
+html.js .wipe.is-in {
+  clip-path: inset(-0.15em -0.5em -0.3em -0.1em);
+  transition: clip-path 700ms var(--ease-out);
+}
+
+.rule {
+  position: relative;
+}
+
+html.js .rule {
+  border-top-color: transparent;
+}
+
+html.js .rule::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--line-strong);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+html.js .rule.is-in::before {
+  transform: scaleX(1);
+  transition: transform 800ms var(--ease-out);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html.js .reveal {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  html.js .wipe {
+    clip-path: none;
+    transition: none;
+  }
+
+  html.js .rule {
+    border-top-color: var(--line-strong);
+  }
+
+  html.js .rule::before {
+    display: none;
   }
 }

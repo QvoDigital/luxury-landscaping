@@ -1,12 +1,16 @@
 import { useEffect } from 'react';
 
 /**
- * Marks `.reveal` elements inside `root` with `.is-in` the first time they enter the viewport.
+ * Drives the three scroll-entrance primitives inside `root` by adding `.is-in` the first time each
+ * element enters the viewport: `.reveal` (fade and rise), `.wipe` (a heading swept in from the
+ * left) and `.rule` (a hairline drawn from the left). The CSS in global.css owns what each one
+ * looks like; this only decides when.
  *
  * One IntersectionObserver for the whole page, created once, disconnected on unmount. Elements
  * that are already on screen at mount (the hero) get the class immediately so nothing pops in
  * after first paint. Sibling order sets a small stagger through `--reveal-delay`, capped so a long
- * list never makes the last item wait.
+ * list never makes the last item wait; only `.reveal` staggers, because a rule or a heading has no
+ * siblings to queue behind.
  */
 export function useReveal(root: React.RefObject<HTMLElement | null>) {
   useEffect(() => {
@@ -36,7 +40,7 @@ export function useReveal(root: React.RefObject<HTMLElement | null>) {
       { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
     );
 
-    for (const item of items) io.observe(item);
+    for (const node of el.querySelectorAll<HTMLElement>('.reveal, .wipe, .rule')) io.observe(node);
     return () => io.disconnect();
   }, [root]);
 }

@@ -1,12 +1,15 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import FaqPage from './pages/FaqPage';
+import { serviceAreas } from './content/services';
+import ServiceAreaPage from './pages/ServiceAreaPage';
 import './styles/global.css';
 import './styles/layout.css';
 import './styles/sections.css';
 
+const area = serviceAreas.find((a) => a.id === 'snow-removal')!;
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <FaqPage />
+    <ServiceAreaPage area={area} />
   </StrictMode>
 );

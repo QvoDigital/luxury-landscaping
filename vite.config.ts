@@ -2,8 +2,8 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
 /**
- * Two entry points, not a router. /faq/ is a separate document so it gets its own title,
- * canonical and FAQPage structured data, and never loads the hero photography.
+ * Separate documents, not a router. Each sub-page is its own entry so it gets its own title and
+ * canonical, and only the home page loads the hero photography.
  */
 export default defineConfig({
   plugins: [react()],
@@ -13,10 +13,12 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: 'index.html',
-        faq: 'faq/index.html',
         team: 'team/index.html',
-        services: 'services/index.html',
-        packages: 'packages/index.html',
+        landscaping: 'landscaping/index.html',
+        'lawn-care': 'lawn-care/index.html',
+        'snow-removal': 'snow-removal/index.html',
+        programs: 'programs/index.html',
+        reviews: 'reviews/index.html',
         notfound: '404.html',
         privacy: 'privacy/index.html',
         terms: 'terms/index.html',
