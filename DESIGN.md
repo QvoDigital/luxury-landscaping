@@ -178,6 +178,18 @@ label a visitor actually sees, and on the home page it left the Services row for
 made a program read as a fourth service. The only link between them now is one contextual line on
 `/lawn-care/`, where the programs genuinely are the next question.
 
+## 5b. Hosting and redirects
+
+The site is deployed on Vercel and served at `https://www.luxurylandscaping.ca` (the apex 308s to
+www). `vercel.json` holds 301s for the three URLs this build removed, all of which were in the
+sitemap and indexed before: `/services/` to the home page's Services band, `/packages/` to
+`/programs/`, `/faq/` to the home page. If a page is ever removed again, add its redirect in the
+same commit — the deploy is automatic, so a removal without a redirect is a live 404 within
+minutes.
+
+Note the canonical/host mismatch that predates this: `index.html` and `sitemap.xml` both use the
+apex `https://luxurylandscaping.ca`, which 308s to www. Worth making consistent.
+
 ## 6. Content rules
 
 `src/content/site.ts` is the single source of truth. Everything on the page comes from the
