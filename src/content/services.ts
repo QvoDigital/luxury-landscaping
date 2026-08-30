@@ -12,11 +12,12 @@
  * page, the sitemap and the prerendered shell; it still needs an entry in vite.config.ts.
  *
  * `detail` (landscaping): a longer paragraph revealed when the row is pressed open on the page.
- * `banner`: the animated wallpaper behind the page's opening words — a muted looping clip filling
- * the whole full-bleed header rectangle, which ends where the service rows begin. Both clips are
- * the work itself happening: sod going down on /landscaping/, a mower cutting stripes on
- * /lawn-care/. Generated with Veo 3.1 Lite (2026-08-30); reduced motion and Data Saver get the
- * poster frame instead.
+ * `banner`: the animated wallpaper behind each page's opening words — a muted looping clip filling
+ * the whole full-bleed header rectangle, which ends where the service rows begin. Every clip is
+ * the work itself happening with no people in frame (client's call): sod unrolling on
+ * /landscaping/, a mower cutting stripes on /lawn-care/, a plough blade clearing snow on
+ * /snow-removal/. Generated with Seedance 2.0 at 4K (2026-08-30) and delivered at 1920px, with
+ * `-640` encodes for phones; Data Saver gets the poster frame instead.
  */
 
 export type ServiceRow = { name: string; text: string; detail?: string };
