@@ -83,18 +83,20 @@
     height: 67.5vw;
     bottom: auto;
   }
+  /* The stage fits its content instead of the full screen, so there is no empty tail to scroll
+   * past between the finished lawn and "Services." — the photograph band is the stage's top
+   * padding and the copy flows beneath it in normal flow. */
+  .hero__stage {
+    height: auto;
+    min-height: 0;
+    padding-top: calc(7vh + 67.5vw + 5vh);
+    padding-bottom: clamp(28px, 5vh, 44px);
+  }
   .hero__copy {
-    top: calc(7vh + 67.5vw + 5vh);
-    bottom: auto;
+    position: static;
   }
   .hero__copy h1 {
     font-size: clamp(2.25rem, 10vw, 2.75rem);
-  }
-  /* The composition fills ~70% of the screen, so the stage's tail is empty ink. Let the next
-   * band ride up over that tail as the hero unpins — dark on dark, no seam — instead of leaving
-   * a dead gap between the finished lawn and "Services." */
-  .hero {
-    margin-bottom: -18vh;
   }
   .doors.section {
     padding-top: 48px;
