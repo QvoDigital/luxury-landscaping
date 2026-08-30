@@ -14,13 +14,13 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { legalDocs, legalMeta } from '../src/content/legal.ts';
-import { programs, serviceAreas } from '../src/content/services.ts';
+import { serviceAreas } from '../src/content/services.ts';
 import { company, contact, reviews, serviceGroups, team } from '../src/content/site.ts';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const distIndex = join(root, 'dist', 'index.html');
 const distTeam = join(root, 'dist', 'team', 'index.html');
-const distPrograms = join(root, 'dist', 'programs', 'index.html');
+const distQuote = join(root, 'dist', 'quote', 'index.html');
 const distReviews = join(root, 'dist', 'reviews', 'index.html');
 
 const esc = (s) =>
@@ -41,8 +41,8 @@ function buildShell() {
           ${groups}
         <h2>What homeowners say</h2>
           <blockquote><p>${esc(featured.quote)}</p><footer>${esc(featured.name)}, Google review</footer></blockquote>
-          <p><a href="/reviews/">Read the reviews</a></p>
-        <p>${serviceAreas.map((a) => `<a href="${a.path}">${esc(a.title)}</a>`).join(' | ')} | <a href="/programs/">Lawn care programs</a> | <a href="/reviews/">Reviews</a> | <a href="/team/">Meet the team</a></p>
+          <p><a href="/reviews/">Read the reviews</a> · <a href="/quote/">Get a quote</a></p>
+        <p>${serviceAreas.map((a) => `<a href="${a.path}">${esc(a.title)}</a>`).join(' | ')} | <a href="/reviews/">Reviews</a> | <a href="/team/">Meet the team</a></p>
         <h2>Contact</h2>
         <address>${esc(address)}<br /><a href="${esc(contact.phoneHref)}">${esc(contact.phone)}</a></address>
       </div>`;
@@ -50,7 +50,7 @@ function buildShell() {
 
 function buildReviewsShell() {
   const quotes = reviews
-    .map((r) => `<blockquote><p>${esc(r.quote)}</p><footer>${esc(r.name)}, Google review</footer></blockquote>`)
+    .map((r) => `<blockquote><p>${esc(r.quote)}</p><footer>${r.name ? `${esc(r.name)}, Google review` : 'Google review'}</footer></blockquote>`)
     .join('\n        ');
   return `<div class="prerender shell">
         <p><a href="/">${esc(company.name)}</a></p>
@@ -72,7 +72,9 @@ function buildTeamShell() {
 }
 
 function buildAreaShell(area) {
-  const rows = area.rows.map((r) => `<section><h2>${esc(r.name)}</h2><p>${esc(r.text)}</p></section>`).join('\n        ');
+  const rows = area.rows
+    .map((r) => `<section><h2>${esc(r.name)}</h2><p>${esc(r.text)}</p>${r.detail ? `<p>${esc(r.detail)}</p>` : ''}</section>`)
+    .join('\n        ');
   const others = serviceAreas
     .filter((a) => a.id !== area.id)
     .map((a) => `<a href="${a.path}">${esc(a.title)}</a>`)
@@ -82,21 +84,18 @@ function buildAreaShell(area) {
         <h1>${esc(area.title)}</h1>
         <p>${esc(area.lede)}</p>
         ${rows}
-        <p>${others} | <a href="/programs/">Lawn care programs</a></p>
+        <p>${others} | <a href="/quote/">Get a quote</a></p>
         <address>${esc(address)}<br /><a href="${esc(contact.phoneHref)}">${esc(contact.phone)}</a></address>
       </div>`;
 }
 
-function buildProgramsShell() {
-  const tiers = programs
-    .map((p) => `<section><h2>${esc(p.name)}</h2><p><strong>${esc(p.visits)}</strong>. ${esc(p.tagline)}</p><ul>${p.includes.map((i) => `<li>${esc(i)}</li>`).join('')}</ul></section>`)
-    .join('\n        ');
+function buildQuoteShell() {
   return `<div class="prerender shell">
         <p><a href="/">${esc(company.name)}</a></p>
-        <h1>Lawn care programs</h1>
-        ${tiers}
+        <h1>Get a quote</h1>
+        <p>Send the form or call. We come out and walk the property with you, and you get a written quote for the work discussed.</p>
         <p>${serviceAreas.map((a) => `<a href="${a.path}">${esc(a.title)}</a>`).join(' | ')}</p>
-        <address>${esc(address)}<br /><a href="${esc(contact.phoneHref)}">${esc(contact.phone)}</a></address>
+        <address>${esc(address)}<br /><a href="${esc(contact.phoneHref)}">${esc(contact.phone)}</a><br /><a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a></address>
       </div>`;
 }
 
@@ -126,12 +125,6 @@ ${serviceGroups.map((g) => `### ${g.title}\n${g.items.map((i) => `- ${i}`).join(
 
 ${serviceAreas.map((a) => `### ${a.title}\nFull page: ${company.url}${a.path}\n${a.lede}\n${a.rows.map((r) => `- ${r.name}: ${r.text}`).join('\n')}`).join('\n\n')}
 
-## Lawn care programs
-
-Full page: ${company.url}/programs/
-
-${programs.map((p) => `- ${p.name} (${p.visits}): ${p.tagline} Includes: ${p.includes.join('; ')}.`).join('\n')}
-
 ## Service area
 
 Mississauga and the Greater Toronto Area.
@@ -139,6 +132,10 @@ Mississauga and the Greater Toronto Area.
 ## Team
 
 ${team.map((p) => `- ${p.name}: ${p.role}. ${p.body}`).join('\n')}
+
+## Get a quote
+
+${company.url}/quote/ — or call ${contact.phone}.
 
 ## Legal
 
@@ -172,10 +169,10 @@ for (const area of serviceAreas) {
   const dir = area.path.replaceAll('/', '');
   await inject(join(root, 'dist', dir, 'index.html'), `dist/${dir}/index.html`, buildAreaShell(area));
 }
-await inject(distPrograms, 'dist/programs/index.html', buildProgramsShell());
+await inject(distQuote, 'dist/quote/index.html', buildQuoteShell());
 await inject(distReviews, 'dist/reviews/index.html', buildReviewsShell());
 for (const doc of legalDocs) {
   await inject(join(root, 'dist', doc.id, 'index.html'), `dist/${doc.id}/index.html`, buildLegalShell(doc));
 }
 await writeFile(join(root, 'dist', 'llms.txt'), buildLlmsTxt(), 'utf8');
-console.log('[prerender] Injected static content into index, team, reviews, the service pages, programs and the legal pages, and wrote dist/llms.txt');
+console.log('[prerender] Injected static content into index, team, reviews, the service pages, the quote page and the legal pages, and wrote dist/llms.txt');

@@ -3,8 +3,10 @@
   "redirects": [
     { "source": "/services", "destination": "/#services", "permanent": true },
     { "source": "/services/", "destination": "/#services", "permanent": true },
-    { "source": "/packages", "destination": "/programs/", "permanent": true },
-    { "source": "/packages/", "destination": "/programs/", "permanent": true },
+    { "source": "/packages", "destination": "/lawn-care/", "permanent": true },
+    { "source": "/packages/", "destination": "/lawn-care/", "permanent": true },
+    { "source": "/programs", "destination": "/lawn-care/", "permanent": true },
+    { "source": "/programs/", "destination": "/lawn-care/", "permanent": true },
     { "source": "/faq", "destination": "/", "permanent": true },
     { "source": "/faq/", "destination": "/", "permanent": true }
   ]

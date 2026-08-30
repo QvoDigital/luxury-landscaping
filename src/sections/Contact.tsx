@@ -1,7 +1,7 @@
 import { ArrowRight, CheckCircle, EnvelopeSimple, MapPin, Phone } from '@phosphor-icons/react';
 import { useState, type FormEvent } from 'react';
 import { serviceAreas } from '../content/services';
-import { contact, programOptions } from '../content/site';
+import { contact } from '../content/site';
 
 type Status = 'idle' | 'sending' | 'sent' | 'mailed';
 
@@ -28,21 +28,9 @@ function mailtoFor(f: Record<string, string>): string {
  * reloads and the success / error state is shown inline.
  */
 const FORM_ENDPOINT = `https://formsubmit.co/ajax/${contact.email}`;
-/**
- * `/?program=Deluxe#contact` (from the programs page) pre-selects that program in the Service
- * dropdown and starts the message. Anything that is not one of the four programs is ignored.
- */
-function programFromUrl(): string {
-  const raw = new URLSearchParams(window.location.search).get('program') ?? '';
-  return ['Basic', 'Deluxe', 'Luxury', 'Consulting'].includes(raw) ? raw : '';
-}
-function programOption(program: string): string {
-  return programOptions.find((o) => o.startsWith(program)) ?? '';
-}
 
 export function Contact() {
   const [status, setStatus] = useState<Status>('idle');
-  const program = programFromUrl();
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -133,7 +121,7 @@ export function Contact() {
             </div>
             <div className="form__field">
               <label htmlFor="f-service">Service <span className="form__req">(optional)</span></label>
-              <select id="f-service" name="service" defaultValue={programOption(program)}>
+              <select id="f-service" name="service" defaultValue="">
                 <option value="">Not sure yet</option>
                 {serviceAreas.map((area) => (
                   <optgroup key={area.id} label={area.title}>
@@ -144,26 +132,13 @@ export function Contact() {
                     ))}
                   </optgroup>
                 ))}
-                <optgroup label="Lawn care programs">
-                  {programOptions.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
-                </optgroup>
               </select>
             </div>
           </div>
 
           <div className="form__field">
             <label htmlFor="f-message">What would you like done? <span className="form__req">(required)</span></label>
-            <textarea
-              id="f-message"
-              name="message"
-              rows={4}
-              required
-              defaultValue={program ? `I'm interested in the ${program} lawn care program.` : ''}
-            />
+            <textarea id="f-message" name="message" rows={4} required />
           </div>
 
           <p className="form__privacy">

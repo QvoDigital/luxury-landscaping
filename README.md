@@ -1,7 +1,7 @@
 ﻿# Luxury Landscaping
 
-Marketing site for Luxury Landscaping, Mississauga ON. Single scroll-driven page (five sections)
-plus separate service, programs, team and legal documents.
+Marketing site for Luxury Landscaping, Mississauga ON. Single scroll-driven page (four sections)
+plus separate service, quote, team and legal documents.
 React 19 + TypeScript + Vite, GSAP ScrollTrigger, Phosphor icons, self-hosted variable fonts.
 
 ## Commands
@@ -16,17 +16,21 @@ node scripts/optimize-photos.mjs   # convert PNGs in public/photos to optimised 
 ## Where things live
 
 - `src/content/site.ts`: every business fact, service, review and the two hero plates. Edit here first.
-- `src/sections/*`: Hero, Services, Programs, Reviews, Contact (see `src/App.tsx`).
-- `src/content/services.ts`: the three service areas and the four programs. Each area carries its
-  own `path` and nav label, so adding one updates the header, the home page, the prerendered shell
-  and llms.txt — it still needs an entry in `vite.config.ts` and a matching `<slug>/index.html`.
+- `src/sections/*`: Hero, Services, Reviews on the home page; Contact renders on /quote/ (see `src/App.tsx`).
+- `src/content/services.ts`: the three service areas. Each area carries its own `path` and nav
+  label, so adding one updates the header, the home page, the prerendered shell and llms.txt — it
+  still needs an entry in `vite.config.ts` and a matching `<slug>/index.html`.
 - `src/pages/ServiceAreaPage.tsx` + `{landscaping,lawn-care,snow-removal}/index.html`: one page per
   service area, each its own entry with its own metadata and `Service` schema.
-- `src/components/ServiceDemo.tsx` + `src/components/demo/index.ts`: the "Watch it" section on each
-  service page. One `Demo` per service row, index-aligned with that area's `rows`. Media lives in
-  `public/photos/demo/` — before/after plates generated with Higgsfield, each "after" made *from*
-  its own "before" so the pair aligns, plus one plough video shared by the four snow levels.
-- `src/pages/ProgramsPage.tsx` + `programs/index.html` + `src/programs.tsx`: the four lawn care programs.
+- `src/components/ServiceDemo.tsx` + `src/components/demo/index.ts`: the "Watch it" section on the
+  landscaping and snow pages. One `Demo` per service row, index-aligned with that area's `rows`.
+  Media lives in `public/photos/demo/` — before/after plates generated with Higgsfield, each
+  "after" made *from* its own "before" so the pair aligns, plus one video per snow level
+  (plough / shovel / salt) and the commercial lot clip.
+- `src/components/LawnJourney.tsx`: the lawn care page's demonstration — one lawn carried through
+  all four treatments in one continuous animation over the chained `lawn-stage-*` plates.
+- `src/pages/QuotePage.tsx` + `quote/index.html` + `src/quote.tsx`: the quote form on its own page;
+  every "Get a quote" button lands here (`cta.href` in site.ts).
 - `src/pages/ReviewsPage.tsx` + `reviews/index.html` + `src/reviews.tsx`: the Google reviews in full.
 - `src/pages/TeamPage.tsx` + `team/index.html` + `src/team.tsx`: the Meet the Team page (Patrick and Andrew).
 - `src/styles/tokens.css`: colour, type, spacing, radius tokens (dark only).

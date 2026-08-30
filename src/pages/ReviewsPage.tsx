@@ -42,12 +42,12 @@ export default function ReviewsPage() {
 
           <ul className="reviews__page rule">
             {reviews.map((r) => (
-              <li key={r.name} className="reveal">
+              <li key={r.quote} className="reveal">
                 <figure>
                   <blockquote>
                     <p>“{r.quote}”</p>
                   </blockquote>
-                  <figcaption>{r.name}, Google review</figcaption>
+                  <figcaption>{r.name ? `${r.name}, Google review` : 'Google review'}</figcaption>
                 </figure>
               </li>
             ))}

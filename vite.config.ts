@@ -17,7 +17,7 @@ export default defineConfig({
         landscaping: 'landscaping/index.html',
         'lawn-care': 'lawn-care/index.html',
         'snow-removal': 'snow-removal/index.html',
-        programs: 'programs/index.html',
+        quote: 'quote/index.html',
         reviews: 'reviews/index.html',
         notfound: '404.html',
         privacy: 'privacy/index.html',

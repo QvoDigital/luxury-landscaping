@@ -13,7 +13,7 @@ import { serviceAreas } from './services.ts';
 
 export const company = {
   name: 'Luxury Landscaping',
-  tagline: 'Landscape design, build and lawn care across Mississauga and the GTA.',
+  tagline: 'Landscape design, build and maintain across Mississauga and the GTA.',
   headline: 'Yards worth coming home to.',
   /** The client's own tagline from the original site: "Design, Build & Maintain Your Space". */
   sub: 'Design, build and maintain your space. Mississauga and the GTA.',
@@ -45,22 +45,34 @@ export const serviceGroups: readonly ServiceGroup[] = [
   {
     id: 'design-build',
     title: 'Design & build',
-    items: ['Landscape design', 'Landscape construction / installation', 'Mulch installation', 'Aggregate installation'],
+    items: [
+      'Landscape design',
+      'Landscape construction / installation',
+      'Planting & garden reconstruction',
+      'Mulch installation',
+      'Aggregate installation',
+    ],
   },
   {
     id: 'lawn-maintenance',
     title: 'Lawn maintenance',
-    items: ['Weekly lawn maintenance', 'Bi-weekly lawn maintenance', 'Lawn mowing', 'Lawn care programs'],
+    items: [
+      'Weekly lawn cutting',
+      'Bi-weekly lawn cutting',
+      'Garden weeding',
+      'Shrub & small tree pruning',
+      'Lawn repair',
+    ],
   },
   {
     id: 'lawn-health',
     title: 'Lawn health',
-    items: ['Top dressing', 'Fertilization', 'Overseeding', 'Weed control', 'Grub control', 'Lawn aeration', 'Dethatching'],
+    items: ['Dethatching', 'Weed control', 'Fertilization', 'Overseeding'],
   },
   {
-    id: 'pruning-winter',
-    title: 'Pruning & winter',
-    items: ['Small tree pruning', 'Shrub pruning', 'Residential winter services', 'Commercial winter services'],
+    id: 'winter',
+    title: 'Winter',
+    items: ['Residential winter services', 'Commercial winter services'],
   },
 ] as const;
 
@@ -79,6 +91,15 @@ export const reviews: readonly Review[] = [
   {
     quote: 'Patrick and his team, from start to finish, made my landscaping my little oasis.',
     name: 'Steve Johnson',
+  },
+  {
+    quote: 'Absolutely amazing, the quality is amazing as well as the price.',
+    name: 'Ali',
+  },
+  /** A review-summary snippet from the listing itself; Google shows it without a name. */
+  {
+    quote: 'Truly a luxury service, reliable team, stellar work.',
+    name: '',
   },
 ] as const;
 
@@ -112,7 +133,6 @@ export type NavEntry = NavLink | { label: string; items: readonly NavLink[] };
  */
 export const nav: readonly NavEntry[] = [
   { label: 'Services', items: serviceAreas.map((a) => ({ label: a.nav, href: a.path })) },
-  { label: 'Programs', href: '/programs/' },
   { label: 'Reviews', href: '/reviews/' },
   { label: 'Team', href: '/team/' },
 ];
@@ -147,8 +167,5 @@ export const careers = {
   body: 'Luxury Landscaping is expanding. We hire like minds into technical, design and management roles.',
 } as const;
 
-/** The four lawn care programs as they appear in the quote form's Service dropdown. */
-export const programOptions = ['Basic program', 'Deluxe program', 'Luxury program', 'Consulting'] as const;
-
 /** One label for the one contact intent, used identically everywhere. */
-export const cta = { label: 'Get a quote', href: '/#contact' } as const;
+export const cta = { label: 'Get a quote', href: '/quote/' } as const;

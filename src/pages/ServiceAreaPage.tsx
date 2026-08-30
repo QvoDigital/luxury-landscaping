@@ -1,8 +1,9 @@
-import { ArrowRight } from '@phosphor-icons/react';
+import { ArrowRight, CaretDown } from '@phosphor-icons/react';
 import { useRef } from 'react';
 import { BackLink } from '../components/BackLink';
 import { CookieConsent } from '../components/CookieConsent';
 import { Footer } from '../components/Footer';
+import { LawnJourney } from '../components/LawnJourney';
 import { Masthead } from '../components/Masthead';
 import { ServiceDemo } from '../components/ServiceDemo';
 import type { ServiceArea } from '../content/services';
@@ -40,15 +41,32 @@ export default function ServiceAreaPage({ area }: { area: ServiceArea }) {
           </header>
 
           <ul className="menu__rows menu__body rule">
-            {area.rows.map((r) => (
-              <li key={r.name} className="reveal">
-                <h2>{r.name}</h2>
-                <p>{r.text}</p>
-              </li>
-            ))}
+            {area.rows.map((r) =>
+              r.detail ? (
+                // Rows with a longer story open on press. <details>, not state: it works without
+                // JavaScript and the prerendered shell prints the full text either way.
+                <li key={r.name} className="reveal">
+                  <details className="menu__disclose">
+                    <summary>
+                      <span className="menu__disclose-head">
+                        <h2>{r.name}</h2>
+                        <CaretDown className="menu__caret" size={18} weight="bold" aria-hidden="true" />
+                      </span>
+                      <p>{r.text}</p>
+                    </summary>
+                    <p className="menu__detail">{r.detail}</p>
+                  </details>
+                </li>
+              ) : (
+                <li key={r.name} className="reveal">
+                  <h2>{r.name}</h2>
+                  <p>{r.text}</p>
+                </li>
+              )
+            )}
           </ul>
 
-          <ServiceDemo area={area} />
+          {area.id === 'lawn-care' ? <LawnJourney area={area} /> : <ServiceDemo area={area} />}
 
           <div className="menu__foot rule">
             <nav className="menu__more reveal" aria-label="Other services">
@@ -65,16 +83,6 @@ export default function ServiceAreaPage({ area }: { area: ServiceArea }) {
                 ))}
               </ul>
             </nav>
-
-            {area.id === 'lawn-care' && (
-              <p className="reveal">
-                Want us to look after the whole season?{' '}
-                <a href="/programs/">
-                  See the lawn care programs
-                  <ArrowRight size={16} weight="bold" aria-hidden="true" />
-                </a>
-              </p>
-            )}
 
             <div className="menu__actions reveal">
               <a className="btn" href={cta.href}>

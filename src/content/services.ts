@@ -1,16 +1,21 @@
 /**
- * Content for the three service pages and /programs/.
+ * Content for the three service pages.
  *
  * Everything here comes from the client's original Wix site (WIX-SITE-CONTENT.md, re-verified
- * 2026-08-20), rewritten to one plain sentence per item. No pricing, no guarantees, no visit
- * counts beyond what the client published. The short list in site.ts still drives the quote form.
+ * 2026-08-20) plus the client's 2026-08-30 revisions: aeration, grub control and tree & shrub
+ * pruning dropped from lawn care; fertilization and overseeding split into their own rows; the
+ * landscaping Maintain list rebuilt around cutting, weeding, pruning and lawn repair. No pricing,
+ * no guarantees. The short list in site.ts still drives the quote form.
  *
  * Each area is a page of its own (2026-08-24): `path` is the URL, `nav` the header label and
  * `door` the one line the home page shows. Adding an area here adds it to the header, the home
  * page, the sitemap and the prerendered shell; it still needs an entry in vite.config.ts.
+ *
+ * `detail` (landscaping): a longer paragraph revealed when the row is pressed open on the page.
+ * `wall` (home page): a small photo strip shown behind the door's title word.
  */
 
-export type ServiceRow = { name: string; text: string };
+export type ServiceRow = { name: string; text: string; detail?: string };
 export type ServiceArea = {
   id: string;
   path: string;
@@ -18,6 +23,7 @@ export type ServiceArea = {
   title: string;
   lede: string;
   door: string;
+  wall?: { src: string; alt: string };
   rows: readonly ServiceRow[];
 };
 
@@ -29,18 +35,28 @@ export const serviceAreas: readonly ServiceArea[] = [
     title: 'Landscaping',
     lede: 'We design it, build it and keep it looking that way.',
     door: 'Design, build and maintain — from the first drawing to weekly care.',
+    wall: {
+      src: '/photos/demo/build-after-800.jpg',
+      alt: '',
+    },
     rows: [
       {
         name: 'Design',
-        text: 'We meet to understand what you want, draw up the plan, and only schedule the work once you have approved it.',
+        text: 'A plan you approve before any work is scheduled — drawn up professionally or shaped together with you.',
+        detail:
+          'It starts with a consultation: your ideas, the style you want, and any features you would like in the design. From there, we work with a landscape architect who can provide full drawings — or we work through it with you directly to see exactly what you want. Revisions are welcome, and the work is only scheduled once you have approved the plan.',
       },
       {
         name: 'Build',
-        text: 'Patio stones, garden reconstruction, sod, irrigation, small tree removal and artificial grass. Quality materials, priced within your range.',
+        text: 'Patio stones, planting with garden reconstruction, sod, irrigation, small tree removal and artificial grass.',
+        detail:
+          'Quality materials, priced within your range: patio stones, planting with garden reconstruction, removing and installing sod, irrigation system installation, smaller tree removal and artificial grass. We complete each project as if it were our own backyard.',
       },
       {
         name: 'Maintain',
-        text: 'Weekly or bi-weekly care for lawns and gardens: top dressing, fertilizer, overseeding, weed control, grub control, aeration, mulch and aggregates.',
+        text: 'Weekly or bi-weekly lawn cutting, garden weeding, shrub and small tree pruning, lawn repair, mulch and aggregates.',
+        detail:
+          'Care that keeps the finished yard looking finished. Weekly or bi-weekly lawn cutting, garden weeding, shrub and small tree pruning, lawn repair where the turf has thinned or torn, and fresh mulch and aggregates when the beds need them.',
       },
     ],
   },
@@ -50,23 +66,27 @@ export const serviceAreas: readonly ServiceArea[] = [
     nav: 'Lawn care',
     title: 'Lawn care',
     lede: 'The treatments that keep a lawn healthy all season.',
-    door: 'Dethatching, aeration, fertilization, overseeding, weed and grub control.',
+    door: 'Dethatching, weed control, fertilization and overseeding.',
+    wall: {
+      src: '/photos/demo/lawn-stage-4-800.jpg',
+      alt: '',
+    },
     rows: [
       {
-        name: 'Dethatching & aeration',
-        text: 'Opens up the turf so oxygen, water and nutrients reach the roots.',
+        name: 'Dethatching',
+        text: 'Clears the layer of dead thatch off the turf so oxygen, water and nutrients can reach the roots.',
       },
       {
-        name: 'Fertilization & overseeding',
-        text: 'Feeds and seeds the lawn as the weather warms, for the healthiest result.',
+        name: 'Weed control',
+        text: 'Targeted treatment that clears dandelions, clover and crabgrass out of the lawn and keeps them from coming back — so the water and nutrients in your soil feed grass, not weeds.',
       },
       {
-        name: 'Weed & grub control',
-        text: 'Stops weeds and grubs taking the nutrients meant for your grass.',
+        name: 'Fertilization',
+        text: 'A feeding matched to the season, for steady growth and deep, even colour.',
       },
       {
-        name: 'Tree & shrub pruning',
-        text: 'Keeps trees and shrubs healthy and lets more light reach shaded lawn.',
+        name: 'Overseeding',
+        text: 'Fresh seed over the existing turf to thicken thin areas and fill in bare patches.',
       },
     ],
   },
@@ -83,49 +103,5 @@ export const serviceAreas: readonly ServiceArea[] = [
       { name: 'Residential · Level 3', text: 'Luxury protection. We clear every snowfall, salting included.' },
       { name: 'Commercial', text: '24/7 snow removal across Mississauga and the GTA.' },
     ],
-  },
-] as const;
-
-export type Program = {
-  id: string;
-  name: string;
-  visits: string;
-  tagline: string;
-  includes: readonly string[];
-};
-
-export const programs: readonly Program[] = [
-  {
-    id: 'basic',
-    name: 'Basic',
-    visits: 'Minimum 3 visits a season',
-    tagline: 'A solid start for your lawn.',
-    includes: ['A walk of your property to spot problem areas', 'Dethatching, overseeding and fertilization', 'Watering and care tips to keep it going'],
-  },
-  {
-    id: 'deluxe',
-    name: 'Deluxe',
-    visits: 'Minimum 4 visits a season',
-    tagline: 'A full program, built for your property.',
-    includes: [
-      'An in-depth walk-through of every concern',
-      'A season-long plan written for your lawn',
-      'Five targeted treatments, no wasted product',
-      'One expert on your lawn from start to finish',
-    ],
-  },
-  {
-    id: 'luxury',
-    name: 'Luxury',
-    visits: 'Minimum 6 visits a season',
-    tagline: 'The most care we offer.',
-    includes: ['In-depth herbicide, fertilizer and overseeding programs', 'The utmost care for your personal ecosystem', 'By the end, we will basically be family'],
-  },
-  {
-    id: 'consulting',
-    name: 'Consulting',
-    visits: 'On call',
-    tagline: 'An expert when you need one.',
-    includes: ['Advice from one of our experts', 'For whatever comes up in your yard'],
   },
 ] as const;

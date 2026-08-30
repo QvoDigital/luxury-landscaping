@@ -45,6 +45,19 @@ const plough = (trigger: string): Demo => ({
 });
 
 /**
+ * The continuous lawn care demonstration (2026-08-30): one front lawn carried through the four
+ * treatments in the order the page lists them. Plate 0 is the neglected lawn; each later plate is
+ * generated from the one before it (same trick as the pairs above), so the journey reads as one
+ * place recovering rather than five pictures. Index-aligned with the lawn-care `rows`: the wipe
+ * from plate k-1 to plate k is treatment k.
+ */
+export const lawnStages = {
+  count: 5,
+  src: (i: number, w: 800 | 1400) => `/photos/demo/lawn-stage-${i}-${w}.jpg`,
+  alt: 'The same tired front lawn recovering step by step: thatch cleared out, weeds gone, fed to an even green, then overseeded thick and full.',
+} as const;
+
+/**
  * Keyed by ServiceArea.id and index-aligned with that area's `rows`, so row three of the service
  * list and demonstration three are the same thing by construction. An area with no entry here
  * renders no demonstration section.
@@ -55,16 +68,26 @@ export const demos: Record<string, readonly Demo[]> = {
     wipe('build', 'The same back garden before and after construction: excavated down to a sand base, then a finished interlock patio with fresh sod and a planted bed along the fence.'),
     wipe('maintain', 'The same back garden before and after a maintenance visit: the finished yard with the lawn grown long and straggling over the patio edge, then cut short with mower stripes and a crisp edge along the stone.'),
   ],
-  'lawn-care': [
-    wipe('aeration', 'The same lawn before and after core aeration: dense straw thatch over compacted ground, then soil cores lying on the surface and open holes through the turf.'),
-    wipe('feeding', 'The same front lawn before and after a season of feeding and overseeding: thin, pale and patchy, then thick and evenly deep green.'),
-    wipe('weeds', 'The same lawn before and after weed and grub control: dandelions, clover and dead brown patches, then uniform clean turf.'),
-    wipe('pruning', 'The same foundation shrubs before and after pruning: overgrown and crowding the window, then cut back to two clean rounded domes with the walkway clear.'),
-  ],
+  // lawn-care is deliberately absent: it renders LawnJourney (one continuous animation over
+  // `lawnStages`) instead of the per-row picker.
   'snow-removal': [
     plough('Clears at 5 cm or more'),
-    plough('Clears at 2.5 cm or more'),
-    plough('Clears every snowfall, salting included'),
+    {
+      kind: 'video',
+      src: '/photos/demo/shovel.mp4',
+      poster: '/photos/demo/shovel-poster.jpg',
+      trigger: 'Clears at 2.5 cm or more',
+      rate: 1.4,
+      alt: 'A person in winter workwear shovelling a light snowfall off a residential driveway.',
+    },
+    {
+      kind: 'video',
+      src: '/photos/demo/salt.mp4',
+      poster: '/photos/demo/salt-poster.jpg',
+      trigger: 'Clears every snowfall, salting included',
+      rate: 1.4,
+      alt: 'A person spreading road salt across a freshly cleared residential driveway.',
+    },
     {
       kind: 'video',
       src: '/photos/demo/commercial.mp4',

@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "border-left: 2px solid var(--line)",
+        "createdAt": "2026-08-30T14:47:07.271Z",
+        "reason": "pre-existing .demo__tab rail design from 2026-08-24 build; selected state turns the rail green — established site pattern, not introduced this session"
+      }
+    ]
+  }
+}

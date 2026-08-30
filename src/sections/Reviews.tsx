@@ -1,14 +1,14 @@
 import { ArrowRight } from '@phosphor-icons/react';
-import { reviews } from '../content/site';
+import { cta, reviews } from '../content/site';
 
 /**
- * Social proof on the home page: the first Google review, in full, and the way through to the rest
- * at /reviews/. One quote rather than all three, so the page that holds them is worth opening —
- * and so this band stays a beat between the Services doors and the Programs ledger rather than a
- * third list to read.
+ * Social proof on the home page: the first three Google reviews and the way through to the rest
+ * at /reviews/. With the quote form on its own page (2026-08-30), this band also carries the home
+ * page's closing "Get a quote" button — the reviews make the case and the button sits right where
+ * the case has just been made.
  */
 export function Reviews() {
-  const [featured] = reviews;
+  const featured = reviews.slice(0, 3);
 
   return (
     <section id="reviews" className="reviews section" aria-labelledby="reviews-heading">
@@ -21,13 +21,23 @@ export function Reviews() {
             Read the reviews
             <ArrowRight size={18} weight="bold" aria-hidden="true" />
           </a>
+          <a className="btn reveal" href={cta.href}>
+            {cta.label}
+            <ArrowRight size={18} weight="bold" aria-hidden="true" />
+          </a>
         </div>
-        <figure className="reviews__featured reveal">
-          <blockquote>
-            <p>“{featured.quote}”</p>
-          </blockquote>
-          <figcaption>{featured.name}, Google review</figcaption>
-        </figure>
+        <ul className="reviews__quotes">
+          {featured.map((r) => (
+            <li key={r.quote} className="reveal">
+              <figure className="reviews__featured">
+                <blockquote>
+                  <p>“{r.quote}”</p>
+                </blockquote>
+                <figcaption>{r.name ? `${r.name}, Google review` : 'Google review'}</figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
