@@ -67,17 +67,19 @@
   margin-top: var(--space-2);
 }
 @media (max-width: 699px) {
-  /* A landscape photograph cannot cover a portrait screen without losing most of the yard, so
-   * phones see the whole plate letterboxed on the ink, riding the upper half of the screen with
-   * the copy in the space below. The cut line is bounded to the photograph's band (its height is
-   * 100vw * 1382 / 2048 = 67.5vw, offset by the 22% object-position). */
+  /* The photograph gets as much of the portrait screen as it can while keeping the yard and
+   * house in frame: a tall band in the upper screen with only a mild side crop (the full
+   * letterbox left it too small — client, 2026-08-30). The cut line is bounded to the band. */
   .hero__plate {
-    object-fit: contain;
-    object-position: 50% 22%;
+    top: 6vh;
+    bottom: auto;
+    height: min(96vw, 54vh);
+    object-fit: cover;
+    object-position: 50% 62%;
   }
   .hero__stage::after {
-    top: calc((100% - 67.5vw) * 0.22);
-    height: 67.5vw;
+    top: 6vh;
+    height: min(96vw, 54vh);
     bottom: auto;
   }
   .hero__copy h1 {
