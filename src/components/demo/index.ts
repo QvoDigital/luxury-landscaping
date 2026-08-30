@@ -34,7 +34,7 @@ const plough = (trigger: string): Demo => ({
   poster: '/photos/demo/plow-poster.jpg',
   trigger,
   rate: 1.25,
-  alt: 'A pickup truck with a yellow plough blade clearing deep snow in one pass, leaving dark asphalt behind it.',
+  alt: 'A pickup truck with a yellow plough blade clearing a home\'s snow-covered driveway from the sidewalk to the garage.',
 });
 
 /**
@@ -71,7 +71,7 @@ export const demos: Record<string, readonly Demo[]> = {
       poster: '/photos/demo/shovel-poster.jpg',
       trigger: 'Clears at 2.5 cm or more',
       rate: 1.3,
-      alt: 'A wide snow shovel pushing a light snowfall off an asphalt driveway in one clean pass.',
+      alt: 'A worker pushing a wide snow shovel up a driveway, driving the snow ahead of the blade and leaving bare asphalt behind.',
     },
     {
       kind: 'video',
@@ -87,7 +87,7 @@ export const demos: Record<string, readonly Demo[]> = {
       poster: '/photos/demo/commercial-poster.jpg',
       trigger: '24/7 across Mississauga and the GTA',
       rate: 1.15,
-      alt: 'A plough truck clearing long lanes through a snow-covered commercial parking lot at dusk, under the lot lights.',
+      alt: 'A RAM-style pickup with a yellow plough blade clearing lanes through a snow-covered commercial lot at dusk, under the lot lights.',
     },
   ],
 };
