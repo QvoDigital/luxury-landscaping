@@ -35,8 +35,12 @@ export function Hero() {
         defaults: { ease: 'none' },
         scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom bottom', scrub: 0.5 },
       });
-      tl.fromTo('.hero__stage', { '--cut': '0%' }, { '--cut': '100%', duration: 1 }, 0)
-        .to('.hero__copy', { opacity: 0, y: -16, duration: 0.3 }, 0.7);
+      tl.fromTo('.hero__stage', { '--cut': '0%' }, { '--cut': '100%', duration: 1 }, 0);
+      // Desktop only: the copy overlays the photograph, so it steps aside for the finished yard.
+      // On phones the copy sits below the photograph, not on it — it stays put (client's call).
+      if (!window.matchMedia('(max-width: 699px)').matches) {
+        tl.to('.hero__copy', { opacity: 0, y: -16, duration: 0.3 }, 0.7);
+      }
     },
     { scope: ref }
   );
