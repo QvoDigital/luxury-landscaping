@@ -101,6 +101,10 @@ export const serviceAreas: readonly ServiceArea[] = [
     title: 'Snow removal',
     lede: 'Snow removal that makes Canadian winters the least of your worries. Contact us for pricing.',
     door: 'Residential and commercial clearing, all winter, across the GTA.',
+    banner: {
+      video: '/photos/demo/banner-snow.mp4',
+      poster: '/photos/demo/banner-snow-poster.jpg',
+    },
     rows: [
       { name: 'Residential · Level 1', text: 'Storm protection. We clear at 5 cm or more.' },
       { name: 'Residential · Level 2', text: 'Light snowfall protection. We clear at 2.5 cm or more.' },
