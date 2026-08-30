@@ -8,6 +8,15 @@
         "value": "border-left: 2px solid var(--line)",
         "createdAt": "2026-08-30T14:47:07.271Z",
         "reason": "pre-existing .demo__tab rail design from 2026-08-24 build; selected state turns the rail green — established site pattern, not introduced this session"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/styles/sections.css"
+        ],
+        "createdAt": "2026-08-30T15:25:27.533Z",
+        "reason": "user confirmed: recurring re-flags of the pre-existing .demo__tab rail (2026-08-24 design) despite exact-value ignore; suppress side-tab for this file"
       }
     ]
   }

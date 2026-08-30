@@ -236,6 +236,35 @@
 }
 
 
+/* ---------- Service pages: shared frame ---------- */
+.back {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  margin-bottom: var(--space-2);
+  color: var(--on-surface-muted);
+  font-weight: 500;
+  text-decoration: none;
+}
+.back svg {
+  color: var(--green);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.back:hover,
+.back:focus-visible {
+  color: var(--on-surface);
+}
+.back:hover svg,
+.back:focus-visible svg {
+  transform: translateX(-4px);
+}
+.menu__head {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 40rem;
+}
 /* The animated wallpaper header on /landscaping/ and /lawn-care/: a muted looping clip of the
  * work happening fills the whole full-bleed rectangle from the masthead down, the opening words
  * sit on it, and the rectangle ends exactly where the service rows begin. The bleed uses the
@@ -252,7 +281,8 @@
   justify-items: start;
   min-height: clamp(380px, 56vh, 660px);
   padding-block: clamp(20px, 3.5vw, 48px) clamp(28px, 4vw, 56px);
-  padding-inline: calc((100vw - var(--shell)) / 2);
+  /* The shell's own inset: gutter on small screens, centred 1320px column above it. */
+  padding-inline: max(var(--gutter), calc((100vw - 1320px) / 2));
   overflow: hidden;
   background: var(--surface-2);
 }
@@ -287,35 +317,6 @@
     linear-gradient(to top, color-mix(in srgb, var(--surface) 76%, transparent) 0%, transparent 55%);
 }
 
-/* ---------- Service pages: shared frame ---------- */
-.back {
-  justify-self: start;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: 44px;
-  margin-bottom: var(--space-2);
-  color: var(--on-surface-muted);
-  font-weight: 500;
-  text-decoration: none;
-}
-.back svg {
-  color: var(--green);
-  transition: transform var(--dur-fast) var(--ease-out);
-}
-.back:hover,
-.back:focus-visible {
-  color: var(--on-surface);
-}
-.back:hover svg,
-.back:focus-visible svg {
-  transform: translateX(-4px);
-}
-.menu__head {
-  display: grid;
-  gap: var(--space-4);
-  max-width: 40rem;
-}
 .menu__group {
   display: grid;
   grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
