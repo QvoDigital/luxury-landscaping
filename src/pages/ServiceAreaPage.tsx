@@ -21,16 +21,6 @@ import { useReveal } from '../lib/reveal';
  * visitor. It repeats what the words already said, so nothing is lost if it never runs.
  */
 
-/**
- * Only Data Saver downgrades the banner to its poster — the visitor asked not to spend megabytes.
- * The client's explicit call (2026-08-30) is that these loops play on phones, so prefers-reduced-
- * motion no longer swaps them out; they are slow ambient clips behind a scrim, not UI motion.
- */
-function stillBanner(): boolean {
-  const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-  return Boolean(conn?.saveData);
-}
-
 /** Phones get the 640px encode (~1 MB instead of ~3.5 MB) so the loop starts fast on cellular. */
 function bannerSrc(video: string): string {
   return window.matchMedia('(max-width: 699px)').matches ? video.replace('.mp4', '-640.mp4') : video;
@@ -43,8 +33,8 @@ function bannerSrc(video: string): string {
  * but Safari's autoplay policy inspects the attribute — so a video that plays everywhere else
  * sits frozen on an iPhone. And Low Power Mode rejects even a legally muted autoplay; the promise
  * rejection is silent. So: stamp the attributes explicitly before asking, ask again once metadata
- * arrives, and if Safari said no, ask once more on the first touch or scroll — the loop is
- * decorative, so when it is refused for good the poster simply stands.
+ * arrives, and keep asking on every user gesture (touch, click, scroll) and on every return to
+ * the tab until the browser gives in — the poster only stands while it holds out.
  */
 function BannerLoop({ banner }: { banner: { video: string; poster: string } }) {
   const ref = useRef<HTMLVideoElement>(null);
@@ -56,17 +46,23 @@ function BannerLoop({ banner }: { banner: { video: string; poster: string } }) {
     v.defaultMuted = true;
     v.setAttribute('muted', '');
     v.setAttribute('webkit-playsinline', '');
-    const tryPlay = () => v.play().catch(() => {});
+    const tryPlay = () => {
+      if (v.paused) v.play().catch(() => {});
+    };
     tryPlay();
-    v.addEventListener('loadedmetadata', tryPlay, { once: true });
-    const opts = { once: true, passive: true } as const;
+    v.addEventListener('loadedmetadata', tryPlay);
+    v.addEventListener('canplay', tryPlay);
+    const opts = { passive: true } as const;
     window.addEventListener('touchstart', tryPlay, opts);
+    window.addEventListener('pointerdown', tryPlay, opts);
     window.addEventListener('scroll', tryPlay, opts);
-    const onVisible = () => !document.hidden && v.paused && tryPlay();
+    const onVisible = () => !document.hidden && tryPlay();
     document.addEventListener('visibilitychange', onVisible);
     return () => {
       v.removeEventListener('loadedmetadata', tryPlay);
+      v.removeEventListener('canplay', tryPlay);
       window.removeEventListener('touchstart', tryPlay);
+      window.removeEventListener('pointerdown', tryPlay);
       window.removeEventListener('scroll', tryPlay);
       document.removeEventListener('visibilitychange', onVisible);
     };
@@ -104,15 +100,12 @@ export default function ServiceAreaPage({ area }: { area: ServiceArea }) {
         <div className="shell">
           {/* With a banner, the header is one full-bleed animated rectangle: the opening words
               sit on the work happening, and the rectangle ends where the service rows begin.
-              Reduced motion and Data Saver get the still poster frame instead of the loop. */}
+              The loop runs on every device (client's call, 2026-08-30) — no motion or data
+              opt-outs; the poster only shows while a browser still refuses playback. */}
           <header className={area.banner ? 'menu__head menu__head--wall' : 'menu__head'}>
             {area.banner && (
               <div className="menu__wall" aria-hidden="true">
-                {stillBanner() ? (
-                  <img src={area.banner.poster} alt="" width="1280" height="720" fetchPriority="high" decoding="async" />
-                ) : (
-                  <BannerLoop banner={area.banner} />
-                )}
+                <BannerLoop banner={area.banner} />
               </div>
             )}
             <BackLink />

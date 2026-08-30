@@ -13,8 +13,7 @@ import { lawnStages } from './demo';
  *
  * The step list beside the stage lights up as the animation reaches each treatment; pressing a
  * step jumps the lawn to that point and plays on from there. Scroll starts the first run, Replay
- * runs it again. Reduced motion: the finished lawn is shown still, and the rows above already say
- * all of it in words.
+ * runs it again — on every device, with no reduced-motion opt-out (client's call, 2026-08-30).
  */
 export function LawnJourney({ area }: { area: ServiceArea }) {
   const stage = useRef<HTMLDivElement>(null);
@@ -25,8 +24,6 @@ export function LawnJourney({ area }: { area: ServiceArea }) {
     const el = stage.current;
     if (!el) return;
 
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     const ctx = gsap.context(() => {
       const t = gsap.timeline({ paused: true, defaults: { ease: 'power2.inOut' } });
       area.rows.forEach((_, k) => {
@@ -35,18 +32,7 @@ export function LawnJourney({ area }: { area: ServiceArea }) {
         t.fromTo(`.journey__plate[data-step="${k + 1}"]`, { '--cut': '0%' }, { '--cut': '100%', duration: 1.6 });
       });
       tl.current = t;
-      if (reduced) {
-        t.progress(1).pause();
-        setActive(area.rows.length - 1);
-      }
     }, el);
-
-    if (reduced) {
-      return () => {
-        ctx.revert();
-        tl.current = null;
-      };
-    }
 
     const io = new IntersectionObserver(
       (entries) => {

@@ -286,23 +286,6 @@ html.js .rule.is-in::before {
   transition: transform 800ms var(--ease-out);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html.js .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-
-  html.js .wipe {
-    clip-path: none;
-    transition: none;
-  }
-
-  html.js .rule {
-    border-top-color: var(--line-strong);
-  }
-
-  html.js .rule::before {
-    display: none;
-  }
-}
+/* No reduced-motion opt-out for the content reveals (client's call, 2026-08-30): they are
+ * one-shot entrance transitions, and the client wants the site animating identically on every
+ * device — including phones with Reduce Motion enabled, where it was arriving frozen. */

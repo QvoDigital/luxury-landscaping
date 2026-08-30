@@ -21,9 +21,10 @@ import { demos } from './demo';
  * unseen. Every pick after that plays on the tap itself — nobody should have to find Replay to see
  * the thing they just asked for.
  *
- * Reduced motion, and any phone with Data Saver on: the wipe jumps to its end (the "after" plate,
- * whole) and the video does not autoplay — it keeps its controls, so it plays only if asked. Without JavaScript the "before"
- * plate and the poster frame still render, and the rows above already say all of it in words.
+ * No reduced-motion or Data Saver opt-out (client's call, 2026-08-30): the demonstrations run on
+ * every device. If a browser still refuses a video's autoplay, "Tap to play" appears. Without
+ * JavaScript the "before" plate and the poster frame still render, and the rows above already say
+ * all of it in words.
  */
 /**
  * Play a clip from the top.
@@ -36,6 +37,12 @@ import { demos } from './demo';
  * the source.
  */
 function playFromStart(v: HTMLVideoElement, rate: number, onBlocked: (blocked: boolean) => void) {
+  // iOS Safari's autoplay policy reads the muted *attribute*, which React never writes; stamp it
+  // (and the inline-playback attributes) before asking, or the play() below is refused on iPhones.
+  v.muted = true;
+  v.defaultMuted = true;
+  v.setAttribute('muted', '');
+  v.setAttribute('webkit-playsinline', '');
   const apply = () => {
     v.playbackRate = rate;
     if (v.currentTime !== 0) v.currentTime = 0;
@@ -75,19 +82,10 @@ export function ServiceDemo({ area }: { area: ServiceArea }) {
     const el = stage.current;
     if (!el || !demo) return;
 
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     const start = () => {
       if (demo.kind === 'video') {
         const v = video.current;
         if (!v) return;
-        // The clips are megabytes and cannot be compressed further here, so a visitor who has
-        // asked their phone to save data gets the poster and the play button instead.
-        const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-        if (conn?.saveData) {
-          setBlocked(true);
-          return;
-        }
         playFromStart(v, demo.rate, setBlocked);
       } else {
         tl.current?.play(0);
@@ -99,17 +97,9 @@ export function ServiceDemo({ area }: { area: ServiceArea }) {
       const t = gsap.timeline({ paused: true });
       t.fromTo('.demo__wipe', { '--cut': '0%' }, { '--cut': '100%', duration: 1.6, ease: 'power2.inOut' });
       tl.current = t;
-      if (reduced) t.progress(1).pause();
     }, el);
 
     startRef.current = start;
-
-    if (reduced) {
-      return () => {
-        ctx.revert();
-        tl.current = null;
-      };
-    }
 
     // Only the very first demonstration waits to be scrolled to. Every later one is started by
     // `pick`, from inside the click itself, so it is never started from here.

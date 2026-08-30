@@ -196,7 +196,7 @@
  * sit on it, and the rectangle ends exactly where the service rows begin. The bleed uses the
  * 50% - 50vw trick (body clips overflow-x); the text padding re-derives the shell's inset so the
  * words stay on the page grid. Scrims keep them readable: one sweeping from the text corner, one
- * rising from the bottom edge. Reduced motion / Data Saver swap the clip for its poster in JSX. */
+ * rising from the bottom edge. The loop runs on every device — no motion or data opt-outs. */
 .menu__head--wall {
   position: relative;
   max-width: none;

@@ -17,7 +17,7 @@
  * the work itself happening with no people in frame (client's call): sod unrolling on
  * /landscaping/, a tired lawn healing into deep green on /lawn-care/, a plough blade clearing snow on
  * /snow-removal/. Generated with Seedance 2.0 at 4K (2026-08-30) and delivered at 1920px, with
- * `-640` encodes for phones; Data Saver gets the poster frame instead.
+ * `-640` encodes for phones. The loops run on every device — no motion or data opt-outs (client's call).
  */
 
 export type ServiceRow = { name: string; text: string; detail?: string };
