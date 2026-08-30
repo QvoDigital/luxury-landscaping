@@ -34,11 +34,31 @@ export function LawnJourney({ area }: { area: ServiceArea }) {
       tl.current = t;
     }, el);
 
+    // Start only when the stage has been scrolled to AND every plate is decoded — a wipe that
+    // reveals a still-downloading image reads as a blank lawn, which is worse than a short wait.
+    let seen = false;
+    let ready = false;
+    let started = false;
+    const maybeStart = () => {
+      if (seen && ready && !started) {
+        started = true;
+        tl.current?.play(0);
+      }
+    };
+    const imgs = Array.from(el.querySelectorAll('img'));
+    Promise.allSettled(imgs.map((i) => (i.complete && i.naturalWidth > 0 ? Promise.resolve() : i.decode()))).then(
+      () => {
+        ready = true;
+        maybeStart();
+      }
+    );
+
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            tl.current?.play(0);
+            seen = true;
+            maybeStart();
             io.disconnect();
           }
         }
@@ -106,7 +126,6 @@ export function LawnJourney({ area }: { area: ServiceArea }) {
                   alt=""
                   width="1400"
                   height="781"
-                  loading="lazy"
                   decoding="async"
                 />
               ))}
