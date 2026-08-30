@@ -72,23 +72,32 @@
    * beneath it so the image and words compose the screen together instead of floating apart.
    * The cut line is bounded to the photograph's band. */
   .hero__plate {
-    top: max(2vh, 16px);
+    top: 7vh;
     bottom: auto;
     height: 67.5vw;
     object-fit: cover;
     object-position: center;
   }
   .hero__stage::after {
-    top: max(2vh, 16px);
+    top: 7vh;
     height: 67.5vw;
     bottom: auto;
   }
   .hero__copy {
-    top: calc(max(2vh, 16px) + 67.5vw + 5vh);
+    top: calc(7vh + 67.5vw + 5vh);
     bottom: auto;
   }
   .hero__copy h1 {
     font-size: clamp(2.25rem, 10vw, 2.75rem);
+  }
+  /* The composition fills ~70% of the screen, so the stage's tail is empty ink. Let the next
+   * band ride up over that tail as the hero unpins — dark on dark, no seam — instead of leaving
+   * a dead gap between the finished lawn and "Services." */
+  .hero {
+    margin-bottom: -18vh;
+  }
+  .doors.section {
+    padding-top: 48px;
   }
 }
 /* ---------- Home: three doors, one per service page ---------- */
