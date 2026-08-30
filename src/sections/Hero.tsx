@@ -22,14 +22,15 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  * small screens show the whole plate letterboxed on the page's ink instead of a crop (see
  * sections.css), with the copy in the space beneath it.
  *
- * Reduced motion: the maintained plate is shown static and the section collapses to one screen.
+ * No reduced-motion branch, on the client's explicit call (2026-08-30): the wipe is scrubbed, so
+ * it only moves exactly as far and as fast as the visitor's own scroll does — direct
+ * manipulation, not autonomous motion.
  */
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom bottom', scrub: 0.5 },

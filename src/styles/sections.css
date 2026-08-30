@@ -84,19 +84,6 @@
     font-size: clamp(2.25rem, 10vw, 2.75rem);
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .hero {
-    height: auto;
-    height: 100dvh;
-  }
-  .hero .hero__after {
-    clip-path: none;
-  }
-  .hero .hero__stage::after {
-    display: none;
-  }
-}
-
 /* ---------- Home: three doors, one per service page ---------- */
 .doors__lede {
   margin-top: var(--space-4);
