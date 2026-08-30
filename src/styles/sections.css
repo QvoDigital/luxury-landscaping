@@ -67,19 +67,24 @@
   margin-top: var(--space-2);
 }
 @media (max-width: 699px) {
-  /* The photograph gets as much of the portrait screen as it can while keeping the yard and
-   * house in frame: a tall band in the upper screen with only a mild side crop (the full
-   * letterbox left it too small — client, 2026-08-30). The cut line is bounded to the band. */
+  /* One fitted screen: the whole photograph, uncropped, straight under the masthead — its box is
+   * the plate's exact 2048x1382 aspect (67.5vw tall at full width) — and the copy sits directly
+   * beneath it so the image and words compose the screen together instead of floating apart.
+   * The cut line is bounded to the photograph's band. */
   .hero__plate {
-    top: 6vh;
+    top: max(2vh, 16px);
     bottom: auto;
-    height: min(96vw, 54vh);
+    height: 67.5vw;
     object-fit: cover;
-    object-position: 50% 62%;
+    object-position: center;
   }
   .hero__stage::after {
-    top: 6vh;
-    height: min(96vw, 54vh);
+    top: max(2vh, 16px);
+    height: 67.5vw;
+    bottom: auto;
+  }
+  .hero__copy {
+    top: calc(max(2vh, 16px) + 67.5vw + 5vh);
     bottom: auto;
   }
   .hero__copy h1 {
