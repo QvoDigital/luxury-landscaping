@@ -67,101 +67,33 @@
   margin-top: var(--space-2);
 }
 @media (max-width: 699px) {
-  /* Portrait crop: favour the beds and lawn, where the change happens. */
+  /* A landscape photograph cannot cover a portrait screen without losing most of the yard, so
+   * phones see the whole plate letterboxed on the ink, riding the upper half of the screen with
+   * the copy in the space below. The cut line is bounded to the photograph's band (its height is
+   * 100vw * 1382 / 2048 = 67.5vw, offset by the 22% object-position). */
   .hero__plate {
-    object-position: 44% 68%;
+    object-fit: contain;
+    object-position: 50% 22%;
+  }
+  .hero__stage::after {
+    top: calc((100% - 67.5vw) * 0.22);
+    height: 67.5vw;
+    bottom: auto;
   }
   .hero__copy h1 {
     font-size: clamp(2.25rem, 10vw, 2.75rem);
   }
-}
-/*
- * Phone: no scroll run. One screen, and the cut line carries a handle the visitor holds and drags.
- * The knob is the only element that owns the touch (touch-action: none); everywhere else the page
- * scrolls as normal. The thumb sits at a comfortable reach height, above the copy.
- */
-.hero--drag {
-  height: 100vh;
-  height: 100dvh;
-}
-.hero--drag .hero__stage {
-  position: relative;
-  top: 0;
-}
-.hero__handle {
-  position: absolute;
-  top: 34%;
-  left: var(--cut, 0%);
-  translate: -50% -50%;
-  display: grid;
-  place-items: center;
-  width: 56px;
-  height: 56px;
-  padding: 0;
-  border: 1.5px solid rgb(246 247 244 / 0.9);
-  border-radius: 50%;
-  background: rgb(14 18 16 / 0.55);
-  color: #f6f7f4;
-  box-shadow: 0 4px 24px rgb(14 18 16 / 0.4);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  touch-action: none;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  transition: scale 160ms ease, background-color 160ms ease;
-  z-index: 2;
-}
-.hero__handle::before {
-  /* Larger invisible hit area so the thumb does not need to land on the ring exactly. */
-  content: '';
-  position: absolute;
-  inset: -14px;
-}
-.hero__handle.is-dragging {
-  scale: 1.1;
-  background: rgb(14 18 16 / 0.75);
-  cursor: grabbing;
-}
-.hero__handle:focus-visible {
-  outline: 2px solid #f6f7f4;
-  outline-offset: 4px;
-}
-.hero__hint {
-  position: absolute;
-  top: calc(34% + 44px);
-  left: 50%;
-  translate: -50% 0;
-  margin: 0;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: rgb(14 18 16 / 0.5);
-  color: rgb(246 247 244 / 0.9);
-  font-size: 0.8125rem;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  pointer-events: none;
-  z-index: 2;
-  transition: opacity 300ms ease;
-}
-.hero__hint.is-hidden {
-  opacity: 0;
 }
 @media (prefers-reduced-motion: reduce) {
   .hero {
     height: auto;
     height: 100dvh;
   }
-  .hero:not(.hero--drag) .hero__after {
+  .hero .hero__after {
     clip-path: none;
   }
-  .hero:not(.hero--drag) .hero__stage::after {
+  .hero .hero__stage::after {
     display: none;
-  }
-  .hero__handle,
-  .hero__hint {
-    transition: none;
   }
 }
 
