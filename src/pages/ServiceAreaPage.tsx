@@ -1,5 +1,5 @@
 import { ArrowRight, CaretDown } from '@phosphor-icons/react';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { BackLink } from '../components/BackLink';
 import { CookieConsent } from '../components/CookieConsent';
 import { Footer } from '../components/Footer';
@@ -26,6 +26,58 @@ function stillBanner(): boolean {
   const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches || Boolean(conn?.saveData);
 }
+
+/**
+ * The banner clip, made to actually autoplay on phones.
+ *
+ * Two iOS traps live here. React sets `muted` as a DOM property and never writes the attribute,
+ * but Safari's autoplay policy inspects the attribute — so a video that plays everywhere else
+ * sits frozen on an iPhone. And Low Power Mode rejects even a legally muted autoplay; the promise
+ * rejection is silent. So: stamp the attributes explicitly before asking, ask again once metadata
+ * arrives, and if Safari said no, ask once more on the first touch or scroll — the loop is
+ * decorative, so when it is refused for good the poster simply stands.
+ */
+function BannerLoop({ banner }: { banner: { video: string; poster: string } }) {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    v.muted = true;
+    v.setAttribute('muted', '');
+    v.setAttribute('webkit-playsinline', '');
+    const tryPlay = () => v.play().catch(() => {});
+    tryPlay();
+    v.addEventListener('loadedmetadata', tryPlay, { once: true });
+    const opts = { once: true, passive: true } as const;
+    window.addEventListener('touchstart', tryPlay, opts);
+    window.addEventListener('scroll', tryPlay, opts);
+    const onVisible = () => !document.hidden && v.paused && tryPlay();
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      v.removeEventListener('loadedmetadata', tryPlay);
+      window.removeEventListener('touchstart', tryPlay);
+      window.removeEventListener('scroll', tryPlay);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
+  }, []);
+
+  return (
+    <video
+      ref={ref}
+      src={banner.video}
+      poster={banner.poster}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="auto"
+      disableRemotePlayback
+      width="1280"
+      height="720"
+    />
+  );
+}
 export default function ServiceAreaPage({ area }: { area: ServiceArea }) {
   const main = useRef<HTMLElement>(null);
   useReveal(main);
@@ -49,17 +101,7 @@ export default function ServiceAreaPage({ area }: { area: ServiceArea }) {
                 {stillBanner() ? (
                   <img src={area.banner.poster} alt="" width="1280" height="720" fetchPriority="high" decoding="async" />
                 ) : (
-                  <video
-                    src={area.banner.video}
-                    poster={area.banner.poster}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="auto"
-                    width="1280"
-                    height="720"
-                  />
+                  <BannerLoop banner={area.banner} />
                 )}
               </div>
             )}
