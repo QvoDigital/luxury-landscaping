@@ -34,7 +34,23 @@ export default function ServiceAreaPage({ area }: { area: ServiceArea }) {
       <Masthead />
       <main id="main" ref={main} tabIndex={-1} className="menu section">
         <div className="shell">
-          <header className="menu__head">
+          {/* With a banner, the header is one photo-filled rectangle: the opening words sit on
+              the finished work, and the rectangle ends where the service rows begin. */}
+          <header className={area.banner ? 'menu__head menu__head--wall' : 'menu__head'}>
+            {area.banner && (
+              <div className="menu__wall" aria-hidden="true">
+                <img
+                  src={area.banner.src}
+                  srcSet={area.banner.srcSet}
+                  sizes="(max-width: 1320px) 100vw, 1320px"
+                  alt=""
+                  width="1400"
+                  height="781"
+                  fetchPriority="high"
+                  decoding="async"
+                />
+              </div>
+            )}
             <BackLink />
             <h1 className="display-l wipe">{area.title}.</h1>
             <p className="lede reveal">{area.lede}</p>

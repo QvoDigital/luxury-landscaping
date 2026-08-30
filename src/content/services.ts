@@ -12,7 +12,9 @@
  * page, the sitemap and the prerendered shell; it still needs an entry in vite.config.ts.
  *
  * `detail` (landscaping): a longer paragraph revealed when the row is pressed open on the page.
- * `wall` (home page): a small photo strip shown behind the door's title word.
+ * `banner`: the wallpaper behind the page's opening words — one photo filling the whole header
+ * rectangle, which ends where the service rows begin. Both banners are finished results the page
+ * itself demonstrates: the built garden on /landscaping/, the recovered lawn on /lawn-care/.
  */
 
 export type ServiceRow = { name: string; text: string; detail?: string };
@@ -23,7 +25,7 @@ export type ServiceArea = {
   title: string;
   lede: string;
   door: string;
-  wall?: { src: string; alt: string };
+  banner?: { src: string; srcSet: string };
   rows: readonly ServiceRow[];
 };
 
@@ -35,9 +37,9 @@ export const serviceAreas: readonly ServiceArea[] = [
     title: 'Landscaping',
     lede: 'We design it, build it and keep it looking that way.',
     door: 'Design, build and maintain — from the first drawing to weekly care.',
-    wall: {
-      src: '/photos/demo/build-after-800.jpg',
-      alt: '',
+    banner: {
+      src: '/photos/demo/build-after-1400.jpg',
+      srcSet: '/photos/demo/build-after-800.jpg 800w, /photos/demo/build-after-1400.jpg 1400w',
     },
     rows: [
       {
@@ -67,9 +69,9 @@ export const serviceAreas: readonly ServiceArea[] = [
     title: 'Lawn care',
     lede: 'The treatments that keep a lawn healthy all season.',
     door: 'Dethatching, weed control, fertilization and overseeding.',
-    wall: {
-      src: '/photos/demo/lawn-stage-4-800.jpg',
-      alt: '',
+    banner: {
+      src: '/photos/demo/lawn-stage-4-1400.jpg',
+      srcSet: '/photos/demo/lawn-stage-4-800.jpg 800w, /photos/demo/lawn-stage-4-1400.jpg 1400w',
     },
     rows: [
       {
