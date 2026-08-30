@@ -21,10 +21,19 @@ import { useReveal } from '../lib/reveal';
  * visitor. It repeats what the words already said, so nothing is lost if it never runs.
  */
 
-/** The banner loop is decorative: anyone who asked for stillness or thrift gets the poster. */
+/**
+ * Only Data Saver downgrades the banner to its poster — the visitor asked not to spend megabytes.
+ * The client's explicit call (2026-08-30) is that these loops play on phones, so prefers-reduced-
+ * motion no longer swaps them out; they are slow ambient clips behind a scrim, not UI motion.
+ */
 function stillBanner(): boolean {
   const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches || Boolean(conn?.saveData);
+  return Boolean(conn?.saveData);
+}
+
+/** Phones get the 640px encode (~1 MB instead of ~3.5 MB) so the loop starts fast on cellular. */
+function bannerSrc(video: string): string {
+  return window.matchMedia('(max-width: 699px)').matches ? video.replace('.mp4', '-640.mp4') : video;
 }
 
 /**
@@ -44,6 +53,7 @@ function BannerLoop({ banner }: { banner: { video: string; poster: string } }) {
     const v = ref.current;
     if (!v) return;
     v.muted = true;
+    v.defaultMuted = true;
     v.setAttribute('muted', '');
     v.setAttribute('webkit-playsinline', '');
     const tryPlay = () => v.play().catch(() => {});
@@ -65,7 +75,7 @@ function BannerLoop({ banner }: { banner: { video: string; poster: string } }) {
   return (
     <video
       ref={ref}
-      src={banner.video}
+      src={bannerSrc(banner.video)}
       poster={banner.poster}
       autoPlay
       muted
