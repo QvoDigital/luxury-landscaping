@@ -15,14 +15,9 @@
  * brick house through all three rows — plain lawn, marked out, excavated, built, grown out, cut.
  * Each plate was chained off the one before it as its reference, which is why the place holds.
  *
- * Snow removal has two clips. The three residential levels share the driveway plough (veo3_1_lite)
- * and differ only by the trigger stated over it, because they differ by *when* the plough comes
- * out, not by what ploughing looks like. Commercial has its own clip in an actual commercial lot
- * (seedance1_5), because that is a different job in a different place.
- *
- * The commercial clip is 480p where the residential one is not — it was generated on the last of
- * the credit budget, and 720p did not fit. It is the softest asset on the site; regenerate it at
- * 720p when there are credits to spend.
+ * Snow removal has four clips (regenerated 2026-08-30 on Seedance 2.0 at 4K, delivered 1440px,
+ * no people in frame per the client): the Level 1 plough pass, the Level 2 shovel push, the
+ * Level 3 salt spreader, and the commercial lot at dusk.
  */
 
 export type Demo =
@@ -33,15 +28,13 @@ export type Demo =
 
 const wipe = (id: string, alt: string): Demo => ({ kind: 'wipe', id, alt });
 
-const DRIVEWAY_ALT = 'A plough truck clearing a snow-covered residential driveway, leaving bare asphalt behind it.';
-
 const plough = (trigger: string): Demo => ({
   kind: 'video',
   src: '/photos/demo/plow.mp4',
   poster: '/photos/demo/plow-poster.jpg',
   trigger,
-  rate: 1.8,
-  alt: DRIVEWAY_ALT,
+  rate: 1.25,
+  alt: 'A pickup truck with a yellow plough blade clearing deep snow in one pass, leaving dark asphalt behind it.',
 });
 
 /**
@@ -77,24 +70,24 @@ export const demos: Record<string, readonly Demo[]> = {
       src: '/photos/demo/shovel.mp4',
       poster: '/photos/demo/shovel-poster.jpg',
       trigger: 'Clears at 2.5 cm or more',
-      rate: 1.4,
-      alt: 'A person in winter workwear shovelling a light snowfall off a residential driveway.',
+      rate: 1.3,
+      alt: 'A wide snow shovel pushing a light snowfall off an asphalt driveway in one clean pass.',
     },
     {
       kind: 'video',
       src: '/photos/demo/salt.mp4',
       poster: '/photos/demo/salt-poster.jpg',
       trigger: 'Clears every snowfall, salting included',
-      rate: 1.4,
-      alt: 'A person spreading road salt across a freshly cleared residential driveway.',
+      rate: 1.3,
+      alt: 'A walk-behind spreader scattering rock salt in a wide fan across a cleared driveway.',
     },
     {
       kind: 'video',
       src: '/photos/demo/commercial.mp4',
       poster: '/photos/demo/commercial-poster.jpg',
       trigger: '24/7 across Mississauga and the GTA',
-      rate: 1.4,
-      alt: 'A Dodge Ram plough truck clearing a large snow-covered commercial parking lot, uncovering the painted bay lines behind it.',
+      rate: 1.15,
+      alt: 'A plough truck clearing long lanes through a snow-covered commercial parking lot at dusk, under the lot lights.',
     },
   ],
 };
