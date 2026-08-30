@@ -20,6 +20,12 @@ import { useReveal } from '../lib/reveal';
  * Between the two sits the demonstration: one animation per row of the list above, chosen by the
  * visitor. It repeats what the words already said, so nothing is lost if it never runs.
  */
+
+/** The banner loop is decorative: anyone who asked for stillness or thrift gets the poster. */
+function stillBanner(): boolean {
+  const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches || Boolean(conn?.saveData);
+}
 export default function ServiceAreaPage({ area }: { area: ServiceArea }) {
   const main = useRef<HTMLElement>(null);
   useReveal(main);
@@ -34,21 +40,27 @@ export default function ServiceAreaPage({ area }: { area: ServiceArea }) {
       <Masthead />
       <main id="main" ref={main} tabIndex={-1} className="menu section">
         <div className="shell">
-          {/* With a banner, the header is one photo-filled rectangle: the opening words sit on
-              the finished work, and the rectangle ends where the service rows begin. */}
+          {/* With a banner, the header is one full-bleed animated rectangle: the opening words
+              sit on the work happening, and the rectangle ends where the service rows begin.
+              Reduced motion and Data Saver get the still poster frame instead of the loop. */}
           <header className={area.banner ? 'menu__head menu__head--wall' : 'menu__head'}>
             {area.banner && (
               <div className="menu__wall" aria-hidden="true">
-                <img
-                  src={area.banner.src}
-                  srcSet={area.banner.srcSet}
-                  sizes="(max-width: 1320px) 100vw, 1320px"
-                  alt=""
-                  width="1400"
-                  height="781"
-                  fetchPriority="high"
-                  decoding="async"
-                />
+                {stillBanner() ? (
+                  <img src={area.banner.poster} alt="" width="1280" height="720" fetchPriority="high" decoding="async" />
+                ) : (
+                  <video
+                    src={area.banner.video}
+                    poster={area.banner.poster}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    width="1280"
+                    height="720"
+                  />
+                )}
               </div>
             )}
             <BackLink />

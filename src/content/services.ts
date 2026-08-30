@@ -12,9 +12,11 @@
  * page, the sitemap and the prerendered shell; it still needs an entry in vite.config.ts.
  *
  * `detail` (landscaping): a longer paragraph revealed when the row is pressed open on the page.
- * `banner`: the wallpaper behind the page's opening words — one photo filling the whole header
- * rectangle, which ends where the service rows begin. Both banners are finished results the page
- * itself demonstrates: the built garden on /landscaping/, the recovered lawn on /lawn-care/.
+ * `banner`: the animated wallpaper behind the page's opening words — a muted looping clip filling
+ * the whole full-bleed header rectangle, which ends where the service rows begin. Both clips are
+ * the work itself happening: sod going down on /landscaping/, a mower cutting stripes on
+ * /lawn-care/. Generated with Veo 3.1 Lite (2026-08-30); reduced motion and Data Saver get the
+ * poster frame instead.
  */
 
 export type ServiceRow = { name: string; text: string; detail?: string };
@@ -25,7 +27,7 @@ export type ServiceArea = {
   title: string;
   lede: string;
   door: string;
-  banner?: { src: string; srcSet: string };
+  banner?: { video: string; poster: string };
   rows: readonly ServiceRow[];
 };
 
@@ -38,8 +40,8 @@ export const serviceAreas: readonly ServiceArea[] = [
     lede: 'We design it, build it and keep it looking that way.',
     door: 'Design, build and maintain — from the first drawing to weekly care.',
     banner: {
-      src: '/photos/demo/build-after-1400.jpg',
-      srcSet: '/photos/demo/build-after-800.jpg 800w, /photos/demo/build-after-1400.jpg 1400w',
+      video: '/photos/demo/banner-landscaping.mp4',
+      poster: '/photos/demo/banner-landscaping-poster.jpg',
     },
     rows: [
       {
@@ -70,8 +72,8 @@ export const serviceAreas: readonly ServiceArea[] = [
     lede: 'The treatments that keep a lawn healthy all season.',
     door: 'Dethatching, weed control, fertilization and overseeding.',
     banner: {
-      src: '/photos/demo/lawn-stage-4-1400.jpg',
-      srcSet: '/photos/demo/lawn-stage-4-800.jpg 800w, /photos/demo/lawn-stage-4-1400.jpg 1400w',
+      video: '/photos/demo/banner-lawn.mp4',
+      poster: '/photos/demo/banner-lawn-poster.jpg',
     },
     rows: [
       {

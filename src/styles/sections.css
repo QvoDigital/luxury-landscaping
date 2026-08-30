@@ -236,21 +236,25 @@
 }
 
 
-/* The wallpaper header on /landscaping/ and /lawn-care/: one photograph fills the whole header
- * rectangle, the opening words sit on it, and the rectangle ends exactly where the service rows
- * begin. The photo settles in slowly once (a quiet Ken Burns drift); reduced motion shows it
- * still. Scrims keep the words readable: one sweeping from the text corner, one rising from the
- * bottom edge. */
+/* The animated wallpaper header on /landscaping/ and /lawn-care/: a muted looping clip of the
+ * work happening fills the whole full-bleed rectangle from the masthead down, the opening words
+ * sit on it, and the rectangle ends exactly where the service rows begin. The bleed uses the
+ * 50% - 50vw trick (body clips overflow-x); the text padding re-derives the shell's inset so the
+ * words stay on the page grid. Scrims keep them readable: one sweeping from the text corner, one
+ * rising from the bottom edge. Reduced motion / Data Saver swap the clip for its poster in JSX. */
 .menu__head--wall {
   position: relative;
   max-width: none;
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  margin-top: calc(-1 * var(--section));
   grid-template-rows: 1fr auto auto;
   justify-items: start;
-  min-height: clamp(280px, 36vw, 440px);
-  padding: clamp(20px, 3.5vw, 48px);
-  border-radius: var(--radius);
+  min-height: clamp(380px, 56vh, 660px);
+  padding-block: clamp(20px, 3.5vw, 48px) clamp(28px, 4vw, 56px);
+  padding-inline: calc((100vw - var(--shell)) / 2);
   overflow: hidden;
-  box-shadow: var(--shadow);
+  background: var(--surface-2);
 }
 .menu__head--wall > :not(.menu__wall) {
   position: relative;
@@ -263,7 +267,8 @@
   position: absolute;
   inset: 0;
 }
-.menu__wall img {
+.menu__wall img,
+.menu__wall video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -280,19 +285,6 @@
       transparent 78%
     ),
     linear-gradient(to top, color-mix(in srgb, var(--surface) 76%, transparent) 0%, transparent 55%);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .menu__wall img {
-    animation: wall-settle 6s var(--ease-out) both;
-  }
-}
-@keyframes wall-settle {
-  from {
-    transform: scale(1.08) translateX(-1.2%);
-  }
-  to {
-    transform: scale(1);
-  }
 }
 
 /* ---------- Service pages: shared frame ---------- */
