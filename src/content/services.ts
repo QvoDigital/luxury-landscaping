@@ -1,3 +1,5 @@
+import { VIDEO_BASE } from './media.ts';
+
 /**
  * Content for the three service pages.
  *
@@ -41,7 +43,7 @@ export const serviceAreas: readonly ServiceArea[] = [
     lede: 'We design it, build it and keep it looking that way.',
     door: 'Design, build and maintain — from the first drawing to weekly care.',
     banner: {
-      video: '/photos/demo/banner-landscaping.mp4',
+      video: `${VIDEO_BASE}/banner-landscaping.mp4`,
       poster: '/photos/demo/banner-landscaping-poster.jpg',
     },
     rows: [
@@ -73,7 +75,7 @@ export const serviceAreas: readonly ServiceArea[] = [
     lede: 'The treatments that keep a lawn healthy all season.',
     door: 'Dethatching, weed control, fertilization and overseeding.',
     banner: {
-      video: '/photos/demo/banner-lawn.mp4',
+      video: `${VIDEO_BASE}/banner-lawn.mp4`,
       poster: '/photos/demo/banner-lawn-poster.jpg',
     },
     rows: [
@@ -103,7 +105,7 @@ export const serviceAreas: readonly ServiceArea[] = [
     lede: 'Snow removal that makes Canadian winters the least of your worries. Contact us for pricing.',
     door: 'Residential and commercial clearing, all winter, across the GTA.',
     banner: {
-      video: '/photos/demo/banner-snow.mp4',
+      video: `${VIDEO_BASE}/banner-snow.mp4`,
       poster: '/photos/demo/banner-snow-poster.jpg',
     },
     rows: [

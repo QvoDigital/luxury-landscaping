@@ -1,3 +1,5 @@
+import { VIDEO_BASE } from '../../content/media.ts';
+
 /**
  * The demonstrations behind the "Watch it" picker on each service page.
  *
@@ -30,7 +32,7 @@ const wipe = (id: string, alt: string): Demo => ({ kind: 'wipe', id, alt });
 
 const plough = (trigger: string): Demo => ({
   kind: 'video',
-  src: '/photos/demo/plow.mp4',
+  src: `${VIDEO_BASE}/plow.mp4`,
   poster: '/photos/demo/plow-poster.jpg',
   trigger,
   rate: 1.25,
@@ -67,7 +69,7 @@ export const demos: Record<string, readonly Demo[]> = {
     plough('Clears at 5 cm or more'),
     {
       kind: 'video',
-      src: '/photos/demo/shovel.mp4',
+      src: `${VIDEO_BASE}/shovel.mp4`,
       poster: '/photos/demo/shovel-poster.jpg',
       trigger: 'Clears at 2.5 cm or more',
       rate: 1.3,
@@ -75,7 +77,7 @@ export const demos: Record<string, readonly Demo[]> = {
     },
     {
       kind: 'video',
-      src: '/photos/demo/salt.mp4',
+      src: `${VIDEO_BASE}/salt.mp4`,
       poster: '/photos/demo/salt-poster.jpg',
       trigger: 'Clears every snowfall, salting included',
       rate: 1.3,
@@ -83,7 +85,7 @@ export const demos: Record<string, readonly Demo[]> = {
     },
     {
       kind: 'video',
-      src: '/photos/demo/commercial.mp4',
+      src: `${VIDEO_BASE}/commercial.mp4`,
       poster: '/photos/demo/commercial-poster.jpg',
       trigger: '24/7 across Mississauga and the GTA',
       rate: 1.15,
