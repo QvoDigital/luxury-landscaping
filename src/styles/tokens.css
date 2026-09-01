@@ -40,7 +40,7 @@
 
   --gutter: clamp(20px, 4vw, 64px);
   --shell: min(1320px, 100% - 2 * var(--gutter));
-  --section: clamp(88px, 11vw, 160px);
+  --section: clamp(28px, 3.5vw, 48px);
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-fast: 160ms;

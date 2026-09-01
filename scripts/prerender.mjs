@@ -42,7 +42,7 @@ function buildShell() {
         <h2>What homeowners say</h2>
           <blockquote><p>${esc(featured.quote)}</p><footer>${esc(featured.name)}, Google review</footer></blockquote>
           <p><a href="/reviews/">Read the reviews</a> · <a href="/quote/">Get a quote</a></p>
-        <p>${serviceAreas.map((a) => `<a href="${a.path}">${esc(a.title)}</a>`).join(' | ')} | <a href="/reviews/">Reviews</a> | <a href="/team/">Meet the team</a></p>
+        <p>${serviceAreas.map((a) => `<a href="${a.path}">${esc(a.title)}</a>`).join(' | ')} | <a href="/reviews/">Reviews</a> | <a href="/team/">About us</a></p>
         <h2>Contact</h2>
         <address>${esc(address)}<br /><a href="${esc(contact.phoneHref)}">${esc(contact.phone)}</a></address>
       </div>`;

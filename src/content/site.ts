@@ -35,6 +35,11 @@ export const contact = {
     'https://www.google.com/maps/search/?api=1&query=Luxury+Landscaping+1824+Medallion+Ct+Mississauga+ON+L5J+2L7',
 } as const;
 
+/** The business's social profiles. Instagram is the only one they run. */
+export const social = {
+  instagram: 'https://www.instagram.com/luxurylandscaping.ca/',
+} as const;
+
 export type ServiceGroup = { id: string; title: string; items: readonly string[] };
 
 /**
@@ -134,7 +139,7 @@ export type NavEntry = NavLink | { label: string; items: readonly NavLink[] };
 export const nav: readonly NavEntry[] = [
   { label: 'Services', items: serviceAreas.map((a) => ({ label: a.nav, href: a.path })) },
   { label: 'Reviews', href: '/reviews/' },
-  { label: 'Team', href: '/team/' },
+  { label: 'About us', href: '/team/' },
 ];
 
 /** The same header links flattened to one list, for places that cannot show a group. */

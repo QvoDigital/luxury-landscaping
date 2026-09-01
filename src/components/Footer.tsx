@@ -1,12 +1,13 @@
-﻿import { legalDocs } from '../content/legal';
-import { company, contact } from '../content/site';
+﻿import { InstagramLogo } from '@phosphor-icons/react';
+import { legalDocs } from '../content/legal';
+import { company, contact, social } from '../content/site';
 import { openPreferences } from '../lib/consent';
 import { Wordmark } from './Wordmark';
 
 /**
  * Footer: business name and contact, and a Legal column with the four policy
  * pages plus the Cookie preferences control (a button, since it opens a dialog rather than
- * navigating). No social links: the business has not supplied any.
+ * navigating). Instagram is the business's only social profile.
  */
 export function Footer() {
   return (
@@ -26,6 +27,15 @@ export function Footer() {
             <img src="/maple-leaf.png" alt="" width="36" height="34" aria-hidden="true" />
             Proudly Canadian
           </p>
+          <a
+            className="footer__social"
+            href={social.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Luxury Landscaping on Instagram"
+          >
+            <InstagramLogo size={28} weight="regular" aria-hidden="true" />
+          </a>
         </div>
         <nav aria-label="Legal" className="footer__col">
           <h2>Legal</h2>
