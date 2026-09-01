@@ -28,11 +28,22 @@ export function useReveal(root: React.RefObject<HTMLElement | null>) {
       groups.set(parent, i + 1);
     }
 
+    // A hidden .wipe is clipped to zero visible area, and IntersectionObserver honours the
+    // target's own clip-path — a fully clipped heading never intersects, so it would never be
+    // revealed. Watch each wipe's parent (never clipped) and mark the wipe when it enters.
+    const targetsFor = new Map<Element, HTMLElement[]>();
+    for (const node of el.querySelectorAll<HTMLElement>('.reveal, .wipe, .rule')) {
+      const watched = node.classList.contains('wipe') && node.parentElement ? node.parentElement : node;
+      const list = targetsFor.get(watched) ?? [];
+      list.push(node);
+      targetsFor.set(watched, list);
+    }
+
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            entry.target.classList.add('is-in');
+            for (const t of targetsFor.get(entry.target) ?? []) t.classList.add('is-in');
             io.unobserve(entry.target);
           }
         }
@@ -40,7 +51,7 @@ export function useReveal(root: React.RefObject<HTMLElement | null>) {
       { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
     );
 
-    for (const node of el.querySelectorAll<HTMLElement>('.reveal, .wipe, .rule')) io.observe(node);
+    for (const watched of targetsFor.keys()) io.observe(watched);
     return () => io.disconnect();
   }, [root]);
 }
